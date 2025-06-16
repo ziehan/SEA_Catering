@@ -1,11 +1,13 @@
 import { Header } from "@/sections/header";
 import { Hero } from "@/sections/hero";
+import { About } from "@/sections/about";
 
 export default function Home() {
   return (
-    <div>
+    <main>
       <Header />
       <Hero />
-    </div>
+      <About />
+    </main>
   );
 }

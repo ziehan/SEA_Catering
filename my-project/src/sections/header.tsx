@@ -31,9 +31,8 @@ export const Header = () => {
   return (
     <>
       <header className="fixed top-3 left-0 w-full flex justify-center z-50 px-4">
-        {/* Kontainer ini sekarang tidak perlu 'w-full max-w-md' karena kita akan mengontrol tombol hamburger secara terpisah */}
         <div>
-          <nav className="hidden md:flex justify-center items-center gap-1 p-0.5 border border-black/0 rounded-full bg-black/0 backdrop-blur">
+          <nav className="hidden md:flex justify-center items-center gap-1 p-0.5 border border-white/50 rounded-full bg-white/50 backdrop-blur">
             {navLinks.map((link) => (
               <a key={link.label} href={link.href} className="nav-item">
                 {link.label}
@@ -47,15 +46,11 @@ export const Header = () => {
             </a>
           </nav>
 
-          {/* ===== PERBAIKAN DI SINI ===== */}
-          {/* 6. Tambahkan kondisi ini agar tombol hamburger HILANG saat menu TERBUKA.
-            Sekarang tombol Menu dan X akan muncul bergantian, tidak pernah bersamaan.
-          */}
           {!isMenuOpen && (
             <div className="md:hidden flex justify-end fixed top-3 right-4">
               <button
                 onClick={() => setIsMenuOpen(true)}
-                className="p-2 rounded-full bg-black/10 border border-black/15"
+                className="p-2 rounded-xl bg-white/40 border border-white/50 mt-3.5 mr-0.75 backdrop-blur-xl"
               >
                 <Menu className="h-6 w-6 text-black" />
               </button>
@@ -67,7 +62,7 @@ export const Header = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="md:hidden fixed inset-0 bg-gray-900/90 backdrop-blur-lg flex flex-col items-center justify-center z-40"
+            className="md:hidden fixed inset-0 bg-rose-900/75 backdrop-blur-lg flex flex-col items-center justify-center z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
