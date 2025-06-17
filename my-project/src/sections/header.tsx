@@ -11,6 +11,7 @@ export const Header = () => {
     { href: "#", label: "Home" },
     { href: "#", label: "Menu" },
     { href: "#", label: "Subscription" },
+    { href: "#", label: "Contact" },
   ];
 
   const menuContainerVariants = {
@@ -32,7 +33,7 @@ export const Header = () => {
     <>
       <header className="fixed top-3 left-0 w-full flex justify-center z-50 px-4">
         <div>
-          <nav className="hidden md:flex justify-center items-center gap-1 p-0.5 border border-white/50 rounded-full bg-white/50 backdrop-blur">
+          <nav className="hidden md:flex justify-center items-center gap-1 p-0.5 border border-black/50 rounded-full bg-white/50 backdrop-blur">
             {navLinks.map((link) => (
               <a key={link.label} href={link.href} className="nav-item">
                 {link.label}
@@ -42,7 +43,7 @@ export const Header = () => {
               href="#"
               className="nav-item bg-black text-white hover:bg-black/70 hover:text-white/70"
             >
-              Contact Us
+              Login
             </a>
           </nav>
 
@@ -97,7 +98,7 @@ export const Header = () => {
                 onClick={() => setIsMenuOpen(false)}
                 className="mt-4 px-6 py-3 rounded-full bg-white text-gray-900 font-bold text-lg"
               >
-                Contact Us
+                Login
               </motion.a>
             </motion.nav>
           </motion.div>
