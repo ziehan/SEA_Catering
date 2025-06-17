@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { ChefHat, Truck, BarChart3, Leaf } from "lucide-react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
@@ -84,18 +84,29 @@ const colorClasses = {
   },
 };
 
-// Floating particles component
 const FloatingParticles = ({ color }: { color: string }) => {
+  const [particles, setParticles] = useState<{ top: string; left: string }[]>(
+    []
+  );
+
+  useEffect(() => {
+    const newParticles = [...Array(8)].map(() => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+    }));
+    setParticles(newParticles);
+  }, []);
+  if (particles.length === 0) {
+    return null;
+  }
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(8)].map((_, i) => (
+      {particles.map((style, i) => (
         <motion.div
           key={i}
           className={`absolute w-1 h-1 bg-${color} rounded-full opacity-60`}
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
+          style={style}
           animate={{
             y: [0, -20, 0],
             x: [0, Math.random() * 10 - 5, 0],
@@ -126,18 +137,14 @@ const ParallaxCard = ({
     target: cardRef,
     offset: ["start end", "end start"],
   });
-
-  // Enhanced parallax transforms with spring physics
   const imageY = useSpring(
     useTransform(scrollYProgress, [0, 1], ["-30%", "30%"]),
     { stiffness: 100, damping: 30, restDelta: 0.001 }
   );
-
   const imageScale = useSpring(
     useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1, 1.2]),
     { stiffness: 100, damping: 30 }
   );
-
   const contentX = useSpring(
     useTransform(
       scrollYProgress,
@@ -151,7 +158,6 @@ const ParallaxCard = ({
     ),
     { stiffness: 100, damping: 30 }
   );
-
   const contentRotate = useSpring(
     useTransform(
       scrollYProgress,
@@ -160,13 +166,11 @@ const ParallaxCard = ({
     ),
     { stiffness: 100, damping: 30 }
   );
-
   const cardOpacity = useTransform(
     scrollYProgress,
     [0, 0.2, 0.8, 1],
     [0.7, 1, 1, 0.7]
   );
-
   const Icon = feature.icon;
   const colors = colorClasses[feature.color];
 
@@ -184,24 +188,17 @@ const ParallaxCard = ({
         delay: index * 0.1,
       }}
     >
-      {/* Image Container with Enhanced Effects */}
       <motion.div
-        className={`relative overflow-hidden rounded-3xl ${colors.shadow} shadow-2xl h-80 md:h-96 ${
-          index % 2 === 0 ? "md:order-1" : "md:order-2"
-        }`}
+        className={`relative overflow-hidden rounded-3xl ${colors.shadow} shadow-2xl h-80 md:h-96 ${index % 2 === 0 ? "md:order-1" : "md:order-2"}`}
         whileHover={{
           scale: 1.02,
           rotateY: index % 2 === 0 ? 5 : -5,
           transition: { duration: 0.6, ease: "easeOut" },
         }}
       >
-        {/* Parallax Image */}
         <motion.div
           className="absolute inset-0 w-full h-full"
-          style={{
-            y: imageY,
-            scale: imageScale,
-          }}
+          style={{ y: imageY, scale: imageScale }}
         >
           <Image
             src={feature.bgImage}
@@ -211,15 +208,9 @@ const ParallaxCard = ({
             placeholder="blur"
           />
         </motion.div>
-
-        {/* Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
-
-        {/* Floating Particles */}
         <FloatingParticles color={colors.accent} />
-
-        {/* Animated Icon Badge */}
         <motion.div
           className="absolute top-6 right-6 w-16 h-16 bg-white/90 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-xl"
           whileHover={{
@@ -227,35 +218,20 @@ const ParallaxCard = ({
             rotate: 360,
             transition: { duration: 0.8, ease: "easeInOut" },
           }}
-          animate={{
-            y: [0, -5, 0],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          animate={{ y: [0, -5, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         >
           <Icon className={`w-8 h-8 text-${colors.accent}`} />
         </motion.div>
-
-        {/* Interactive Glow Effect */}
         <motion.div
           className={`absolute inset-0 rounded-3xl opacity-0 ${colors.glow} shadow-2xl`}
           whileHover={{ opacity: 0.3 }}
           transition={{ duration: 0.3 }}
         />
       </motion.div>
-
-      {/* Content Container with Enhanced Animations */}
       <motion.div
-        className={`relative flex flex-col justify-center ${
-          index % 2 === 0 ? "md:order-2" : "md:order-1"
-        }`}
-        style={{
-          x: contentX,
-          rotate: contentRotate,
-        }}
+        className={`relative flex flex-col justify-center ${index % 2 === 0 ? "md:order-2" : "md:order-1"}`}
+        style={{ x: contentX, rotate: contentRotate }}
       >
         <motion.div
           className={`p-8 md:p-10 rounded-3xl bg-gradient-to-br ${colors.card} backdrop-blur-sm shadow-2xl ${colors.shadow} border border-white/50`}
@@ -265,7 +241,6 @@ const ParallaxCard = ({
             transition: { duration: 0.4, ease: "easeOut" },
           }}
         >
-          {/* Header with Icon */}
           <motion.div
             className="flex items-center gap-4 mb-6"
             initial={{ opacity: 0, x: -20 }}
@@ -287,15 +262,10 @@ const ParallaxCard = ({
                   "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
                 ],
               }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
               <Icon className="w-7 h-7 text-white" />
             </motion.div>
-
             <motion.h3
               className={`text-2xl md:text-3xl font-serif ${colors.iconText}`}
               initial={{ opacity: 0, y: 20 }}
@@ -306,8 +276,6 @@ const ParallaxCard = ({
               {feature.title}
             </motion.h3>
           </motion.div>
-
-          {/* Description */}
           <motion.p
             className="text-gray-700 leading-relaxed text-lg"
             initial={{ opacity: 0, y: 20 }}
@@ -317,26 +285,14 @@ const ParallaxCard = ({
           >
             {feature.description}
           </motion.p>
-
-          {/* Decorative Elements */}
           <motion.div
             className={`absolute -top-2 -right-2 w-4 h-4 bg-${colors.accent} rounded-full opacity-70`}
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.7, 1, 0.7],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+            animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className={`absolute -bottom-1 -left-1 w-3 h-3 bg-${colors.accent} rounded-full opacity-50`}
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.5, 0.8, 0.5],
-            }}
+            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
             transition={{
               duration: 2.5,
               repeat: Infinity,
@@ -356,12 +312,10 @@ export const About = () => {
     target: containerRef,
     offset: ["start end", "end start"],
   });
-
   const headerY = useSpring(
     useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]),
     { stiffness: 100, damping: 30 }
   );
-
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
@@ -369,7 +323,6 @@ export const About = () => {
       ref={containerRef}
       className="relative bg-gradient-to-br from-slate-50 via-white to-blue-50/30 text-black py-20 md:py-32 overflow-hidden"
     >
-      {/* Animated Background Elements */}
       <motion.div
         className="absolute inset-0 overflow-hidden"
         style={{ y: backgroundY }}
@@ -379,9 +332,7 @@ export const About = () => {
         <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-green-200/20 rounded-full blur-2xl" />
         <div className="absolute top-1/4 right-1/4 w-20 h-20 bg-purple-200/20 rounded-full blur-2xl" />
       </motion.div>
-
       <div className="container mx-auto px-4 max-w-6xl relative z-10">
-        {/* Enhanced Header */}
         <motion.div
           className="text-center mb-20 md:mb-28"
           style={{ y: headerY }}
@@ -395,7 +346,6 @@ export const About = () => {
           >
             Why SEA Catering?
           </motion.h2>
-
           <motion.p
             className="max-w-2xl mx-auto text-xl text-gray-600 leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
@@ -406,8 +356,6 @@ export const About = () => {
             We are more than just catering. We are your partner in achieving a
             healthier lifestyle that is easier and more enjoyable.
           </motion.p>
-
-          {/* Animated Divider */}
           <motion.div
             className="flex justify-center mt-8"
             initial={{ opacity: 0, scale: 0 }}
@@ -417,27 +365,17 @@ export const About = () => {
           >
             <motion.div
               className="w-24 h-1 bg-gradient-to-r from-rose-400 via-blue-400 to-green-400 rounded-full"
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               style={{ backgroundSize: "200% 100%" }}
             />
           </motion.div>
         </motion.div>
-
-        {/* Feature Cards */}
         <div className="space-y-24 md:space-y-32">
           {features.map((feature, index) => (
             <ParallaxCard key={feature.title} feature={feature} index={index} />
           ))}
         </div>
-
-        {/* Enhanced CTA Section */}
         <motion.div
           className="flex flex-col md:flex-row justify-center items-center mt-24 gap-6"
           initial={{ opacity: 0, y: 50 }}
@@ -445,39 +383,41 @@ export const About = () => {
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          {/* Tombol "See Menu" */}
-          <motion.button
-            className="group relative inline-flex items-center gap-3 border-2 border-gray-800/20 bg-white/80 backdrop-blur-sm px-10 h-16 rounded-2xl text-black/80 font-semibold text-lg shadow-xl overflow-hidden hover:bg-white hover:text-black transition-colors duration-300 ease-in-out"
-            whileHover={{
-              scale: 1.05,
-              boxShadow:
-                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-            }}
-            whileTap={{ scale: 0.95 }}
-            // FINAL FIX 1: Menambahkan transisi Framer Motion untuk scale & shadow
-            transition={{ duration: 0.3, ease: "easeOut" }}
+          <motion.div
+            className="flex flex-col md:flex-row justify-center items-center mt-24 gap-6"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.2 }}
           >
-            <span className="relative z-10">See Menu</span>
-            {/* FINAL FIX 2: Mengganti overlay gradient menjadi satu warna & menggunakan transisi Tailwind */}
-            <div className="absolute inset-0 bg-gray-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out" />
-          </motion.button>
+            <motion.button
+              className="group relative inline-flex items-center gap-3 border-2 border-gray-800/20 bg-white/80 backdrop-blur-sm px-10 h-16 rounded-2xl text-black/80 font-semibold text-lg shadow-xl overflow-hidden hover:bg-white hover:text-black transition-colors duration-300 ease-in-out"
+              whileHover={{
+                scale: 1.05,
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <span className="relative z-10">See Menu</span>
+              <div className="absolute inset-0 bg-gray-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out" />
+            </motion.button>
 
-          {/* Tombol "Subscribe Now" */}
-          <motion.button
-            className="group relative inline-flex items-center gap-3 border-2 border-transparent bg-gray-950 text-white/80 h-16 px-10 rounded-2xl font-semibold text-lg shadow-xl overflow-hidden hover:bg-gray-800 hover:text-white transition-colors duration-300 ease-in-out"
-            whileHover={{
-              scale: 1.05,
-              boxShadow:
-                "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)",
-            }}
-            whileTap={{ scale: 0.95 }}
-            // FINAL FIX 1: Menambahkan transisi Framer Motion untuk scale & shadow
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            <span className="relative z-10">Subscribe Now</span>
-            {/* FINAL FIX 2: Mengganti overlay gradient menjadi satu warna & menggunakan transisi Tailwind */}
-            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out" />
-          </motion.button>
+            <motion.button
+              className="group relative inline-flex items-center gap-3 border-2 border-transparent bg-gray-950 text-white/80 h-16 px-10 rounded-2xl font-semibold text-lg shadow-xl overflow-hidden hover:bg-gray-800 hover:text-white transition-colors duration-300 ease-in-out"
+              whileHover={{
+                scale: 1.05,
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)",
+              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <span className="relative z-10">Subscribe Now</span>
+              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out" />
+            </motion.button>
+          </motion.div>
         </motion.div>
       </div>
     </section>
