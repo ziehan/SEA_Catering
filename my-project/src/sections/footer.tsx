@@ -2,12 +2,12 @@ import { Utensils, Facebook, Twitter, Instagram } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-400">
+    <footer className="bg-rose-800 text-green-300">
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="md:col-span-2 lg:col-span-1">
             <a href="#" className="inline-flex items-center gap-2 mb-4">
-              <Utensils className="h-8 w-8 text-green-400" />
+              <Utensils className="h-8 w-8 text-green-700" />
               <span className="text-2xl font-serif text-white">
                 SEA Catering
               </span>
@@ -85,7 +85,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-800 text-center text-sm">
+        <div className="mt-12 pt-8 border-t-3 border-green-500 text-center text-sm">
           <p>
             &copy; {new Date().getFullYear()} SEA Catering. All Rights Reserved.
           </p>

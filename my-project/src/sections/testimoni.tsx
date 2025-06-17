@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+// Tipe data untuk review
 type Review = {
   id: string;
   name: string;
@@ -13,6 +14,7 @@ type Review = {
   message: string;
 };
 
+// Data review dalam Bahasa Inggris
 const reviewMessages = [
   "The food is always fresh and delicious! It really helps my diet program.",
   "The service is amazing, delivery is always on time. Recommended!",
@@ -26,19 +28,50 @@ const reviewMessages = [
   "Makes healthy living easier and more enjoyable. A loyal customer!",
 ];
 
+// Custom Hook untuk mendeteksi breakpoint Tailwind
+const useBreakpoint = () => {
+  const [breakpoint, setBreakpoint] = useState("lg");
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setBreakpoint("base");
+      } else if (window.innerWidth < 1024) {
+        setBreakpoint("sm");
+      } else {
+        setBreakpoint("lg");
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return breakpoint;
+};
+
 export const Testimoni = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
 
-  const STEP = 2;
-  const CARDS_PER_PAGE_DESKTOP = 4;
+  const breakpoint = useBreakpoint();
+
+  // Konfigurasi slider yang responsif
+  const sliderConfig = {
+    base: { cardsPerPage: 1, step: 1 }, // Mobile: tampil 1, geser 1
+    sm: { cardsPerPage: 2, step: 2 }, // Tablet: tampil 2, geser 2
+    lg: { cardsPerPage: 4, step: 2 }, // Desktop: tampil 4, geser 2
+  };
+
+  const { cardsPerPage, step } = sliderConfig[breakpoint];
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch("https://randomuser.me/api/?results=10");
+        const response = await fetch("https://randomuser.me/api/?results=12"); // Ambil 12 review agar lebih banyak
         if (!response.ok) throw new Error("Failed to fetch data from server");
         const data = await response.json();
         const combined = data.results.map((user: any, index: number) => ({
@@ -58,15 +91,17 @@ export const Testimoni = () => {
     fetchReviews();
   }, []);
 
+  // Kalkulasi halaman maksimum yang sekarang sudah dinamis
   const maxPage =
-    reviews.length > CARDS_PER_PAGE_DESKTOP
-      ? Math.ceil((reviews.length - CARDS_PER_PAGE_DESKTOP) / STEP)
+    reviews.length > cardsPerPage
+      ? Math.ceil((reviews.length - cardsPerPage) / step)
       : 0;
 
   const handlePrev = () => setPage((p) => Math.max(0, p - 1));
   const handleNext = () => setPage((p) => Math.min(maxPage, p + 1));
 
-  const xOffset = `-${page * (100 / (CARDS_PER_PAGE_DESKTOP / STEP))}%`;
+  // Kalkulasi pergeseran yang sekarang sudah dinamis
+  const xOffset = `-${page * (100 / (cardsPerPage / step))}%`;
 
   if (isLoading) return <div className="py-20 text-center">Loading...</div>;
   if (error)
@@ -85,7 +120,6 @@ export const Testimoni = () => {
           >
             What Our Customers Say
           </motion.h2>
-
           <motion.p
             className="max-w-xl mx-auto mt-4 text-xl leading-relaxed text-gray-600"
             initial={{ opacity: 0, y: 20 }}
@@ -117,7 +151,7 @@ export const Testimoni = () => {
               {reviews.map((review) => (
                 <motion.div
                   key={review.id}
-                  className="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex flex-col items-center text-center flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
+                  className="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex flex-col items-center text-center flex-shrink-0 w-[85vw] sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
                   whileHover={{
                     scale: 1.05,
                     y: -8,

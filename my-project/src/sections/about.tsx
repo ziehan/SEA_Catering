@@ -377,7 +377,7 @@ export const About = () => {
           ))}
         </div>
         <motion.div
-          className="flex flex-col md:flex-row justify-center items-center mt-24 gap-6"
+          className="flex flex-col md:flex-row justify-center items-center gap-6"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
