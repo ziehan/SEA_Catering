@@ -32,3 +32,9 @@ body {
     @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-blue-900 -z-10;
   }
 }
+
+@layer contact {
+  .form {
+    @apply block w-full rounded-lg bg-white border-gray-300 pl-10 py-3 focus:border-emerald-500 focus:ring-emerald-500;
+  }
+}

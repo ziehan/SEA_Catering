@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import {
   ChefHat,
-  Truck,
-  BarChart3,
   Leaf,
   Pizza,
   Sandwich,
@@ -18,15 +16,12 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Image Imports
 import saladImage from "@/assets/image/salad.jpg";
 import saladPangsitImage from "@/assets/image/saladpangsit.jpg";
 import saladPremImage from "@/assets/image/saladprem.jpg";
 import sandwichTelorImage from "@/assets/image/sandwichtelor.jpg";
 import salmonKecapAsinImage from "@/assets/image/salmonkecapasin.jpg";
 import pizzaImage from "@/assets/image/pizza.jpg";
-
-// --- TYPES AND INTERFACES ---
 
 type PlanType = "Diet Plan" | "Protein Plan" | "Royal Plan";
 
@@ -64,8 +59,6 @@ interface PopupProps {
   onClose: () => void;
 }
 
-// --- CONSTANTS AND DATA ---
-
 const IMAGES = [
   saladImage,
   saladPangsitImage,
@@ -77,7 +70,6 @@ const IMAGES = [
 
 const PLAN_TYPES: PlanType[] = ["Diet Plan", "Protein Plan", "Royal Plan"];
 
-// Using the correct full price for display consistency
 const PLAN_PRICES: Record<PlanType, number> = {
   "Diet Plan": 30000,
   "Protein Plan": 40000,
@@ -162,14 +154,12 @@ const MENU_DATA: MenuItemType[] = Array.from({ length: 30 }, (_, i) => {
     icon: icons[i] || ChefHat,
     description:
       "A healthy and delicious option, prepared with high-quality ingredients to support your healthy lifestyle.",
-    // Use Intl.NumberFormat for consistent currency formatting
     price: new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR",
       minimumFractionDigits: 0,
     }).format(PLAN_PRICES[currentPlanType]),
 
-    // --- FIX: Replaced Math.random() with deterministic values based on index 'i' ---
     cookingTime: `${20 + (i % 15)} min`,
     servings: (i % 3) + 1,
     isFeatured: FEATURED_INDICES.includes(i),
@@ -183,7 +173,7 @@ const MENU_DATA: MenuItemType[] = Array.from({ length: 30 }, (_, i) => {
   };
 });
 
-// --- STYLING AND ANIMATION CONSTANTS ---
+// STYLING AND ANIMATION CONSTANTS
 const HOVER_ANIMATION = {
   scale: 1.02,
   transition: { type: "spring", stiffness: 400, damping: 20 },
@@ -202,7 +192,7 @@ const gridItemVariants = {
   visible: { y: 0, opacity: 1 },
 };
 
-// --- COMPONENTS ---
+// COMPONENTS
 const MenuItem: React.FC<MenuItemProps> = ({
   item,
   className = "",
@@ -286,6 +276,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   );
 };
 
+// POP UP
 const MenuPopup: React.FC<PopupProps> = ({ item, isOpen, onClose }) => {
   if (!item) return null;
   return (
@@ -475,7 +466,7 @@ const MenuPopup: React.FC<PopupProps> = ({ item, isOpen, onClose }) => {
   );
 };
 
-// --- MAIN COMPONENT ---
+// MAIN COMPONENT
 export const Menu: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<MenuItemType | null>(null);
   const [visibleItemsCount, setVisibleItemsCount] = useState(15);
@@ -489,10 +480,10 @@ export const Menu: React.FC = () => {
 
   return (
     <>
-      <section className="p-6 sm:p-8 md:p-12 bg-gradient-to-br mt-10 mb-10 min-h-screen">
+      <section className="p-6 sm:p-8 md:p-12 bg-gradient-to-br mt-12 mb-10 min-h-screen">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 pb-1 bg-gradient-to-r from-rose-700 to-green-500 bg-clip-text text-transparent font-serif">
               Explore Our Daily Dishes
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -523,7 +514,7 @@ export const Menu: React.FC = () => {
             <div className="text-center mt-12">
               <motion.button
                 onClick={handleSeeMore}
-                className="bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold text-lg py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="border-2 border-gray-800 bg-white/0 text-gray-800 font-semibold text-lg py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.5 }}

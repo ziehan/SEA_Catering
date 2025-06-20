@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { easeInOut, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Review = {
@@ -136,7 +136,7 @@ export const Testimoni = () => {
             <ChevronLeft size={24} />
           </button>
 
-          <div className="w-full max-w-6xl overflow-hidden">
+          <div className="w-full max-w-6xl overflow-hidden pt-10 pb-10">
             <motion.div
               className="flex gap-6"
               animate={{ x: xOffset }}
@@ -145,13 +145,13 @@ export const Testimoni = () => {
               {reviews.map((review) => (
                 <motion.div
                   key={review.id}
-                  className="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex flex-col items-center text-center flex-shrink-0 w-[85vw] sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
+                  className="bg-white p-6 rounded-lg shadow-md border border-gray-300 flex flex-col items-center text-center flex-shrink-0 w-[85vw] sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
                   whileHover={{
                     scale: 1.05,
                     y: -8,
-                    boxShadow: "0px 15px 25px -5px rgba(0, 0, 0, 0.1)",
+                    boxShadow: "0px 10px 15px -5px rgba(0, 0, 0, 0.1)",
                   }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <Image
                     src={review.picture}
