@@ -37,12 +37,12 @@ export const Hero = () => {
         </div>
 
         <div className="flex flex-col md:flex-row justify-center items-center mt-8 gap-4">
-          <a href="#">
+          <a href="/menu">
             <button className="inline-flex items-center gap-2 border border-white/20 bg-white/10 px-6 h-12 rounded-xl text-white hover hover:bg-white/30 transition ease-in-out duration-300">
               <span className="font-semibold">See Menu</span>
             </button>
           </a>
-          <a href="#">
+          <a href="/subscription">
             <button className="inline-flex items-center gap-2 border border-white bg-white text-gray-900 h-12 px-6 rounded-xl hover hover:bg-white/80 transition ease-in-out duration-300">
               <span className="font-semibold">Subscribe Now</span>
             </button>

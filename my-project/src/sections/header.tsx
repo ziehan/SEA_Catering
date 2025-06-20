@@ -8,10 +8,10 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: "#", label: "Home" },
-    { href: "#", label: "Menu" },
-    { href: "#", label: "Subscription" },
-    { href: "#", label: "Contact" },
+    { href: "./", label: "Home" },
+    { href: "/menu", label: "Menu" },
+    { href: "/subscription", label: "Subscription" },
+    { href: "/contact", label: "Contact" },
   ];
 
   const menuContainerVariants = {

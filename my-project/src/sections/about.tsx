@@ -390,33 +390,37 @@ export const About = () => {
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <motion.button
-              className="group relative inline-flex items-center gap-3 border-2 border-gray-800/20 bg-white/80 backdrop-blur-sm px-10 h-16 rounded-2xl text-black/80 font-semibold text-lg shadow-xl overflow-hidden hover:bg-white hover:text-black transition-colors duration-300 ease-in-out"
-              whileHover={{
-                scale: 1.05,
-                boxShadow:
-                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-              }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              <span className="relative z-10">See Menu</span>
-              <div className="absolute inset-0 bg-gray-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out" />
-            </motion.button>
+            <a href="/menu">
+              <motion.button
+                className="group relative inline-flex items-center gap-3 border-2 border-gray-800/20 bg-white/80 backdrop-blur-sm px-10 h-16 rounded-2xl text-black/80 font-semibold text-lg shadow-xl overflow-hidden hover:bg-white hover:text-black transition-colors duration-300 ease-in-out"
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow:
+                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <span className="relative z-10">See Menu</span>
+                <div className="absolute inset-0 bg-gray-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out" />
+              </motion.button>
+            </a>
 
-            <motion.button
-              className="group relative inline-flex items-center gap-3 border-2 border-transparent bg-gray-950 text-white/80 h-16 px-10 rounded-2xl font-semibold text-lg shadow-xl overflow-hidden hover:bg-gray-800 hover:text-white transition-colors duration-300 ease-in-out"
-              whileHover={{
-                scale: 1.05,
-                boxShadow:
-                  "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)",
-              }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              <span className="relative z-10">Subscribe Now</span>
-              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out" />
-            </motion.button>
+            <a href="/subscription">
+              <motion.button
+                className="group relative inline-flex items-center gap-3 border-2 border-transparent bg-gray-950 text-white/80 h-16 px-10 rounded-2xl font-semibold text-lg shadow-xl overflow-hidden hover:bg-gray-800 hover:text-white transition-colors duration-300 ease-in-out"
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow:
+                    "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <span className="relative z-10">Subscribe Now</span>
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out" />
+              </motion.button>
+            </a>
           </motion.div>
         </motion.div>
       </div>

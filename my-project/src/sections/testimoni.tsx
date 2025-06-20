@@ -5,7 +5,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Tipe data untuk review
 type Review = {
   id: string;
   name: string;
@@ -14,7 +13,6 @@ type Review = {
   message: string;
 };
 
-// Data review dalam Bahasa Inggris
 const reviewMessages = [
   "The food is always fresh and delicious! It really helps my diet program.",
   "The service is amazing, delivery is always on time. Recommended!",
@@ -28,7 +26,6 @@ const reviewMessages = [
   "Makes healthy living easier and more enjoyable. A loyal customer!",
 ];
 
-// Custom Hook untuk mendeteksi breakpoint Tailwind
 const useBreakpoint = () => {
   const [breakpoint, setBreakpoint] = useState("lg");
 
@@ -59,11 +56,10 @@ export const Testimoni = () => {
 
   const breakpoint = useBreakpoint();
 
-  // Konfigurasi slider yang responsif
   const sliderConfig = {
-    base: { cardsPerPage: 1, step: 1 }, // Mobile: tampil 1, geser 1
-    sm: { cardsPerPage: 2, step: 2 }, // Tablet: tampil 2, geser 2
-    lg: { cardsPerPage: 4, step: 2 }, // Desktop: tampil 4, geser 2
+    base: { cardsPerPage: 1, step: 1 },
+    sm: { cardsPerPage: 2, step: 2 },
+    lg: { cardsPerPage: 4, step: 2 },
   };
 
   const { cardsPerPage, step } = sliderConfig[breakpoint];
@@ -71,7 +67,7 @@ export const Testimoni = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch("https://randomuser.me/api/?results=12"); // Ambil 12 review agar lebih banyak
+        const response = await fetch("https://randomuser.me/api/?results=12");
         if (!response.ok) throw new Error("Failed to fetch data from server");
         const data = await response.json();
         const combined = data.results.map((user: any, index: number) => ({
@@ -91,7 +87,6 @@ export const Testimoni = () => {
     fetchReviews();
   }, []);
 
-  // Kalkulasi halaman maksimum yang sekarang sudah dinamis
   const maxPage =
     reviews.length > cardsPerPage
       ? Math.ceil((reviews.length - cardsPerPage) / step)
@@ -100,7 +95,6 @@ export const Testimoni = () => {
   const handlePrev = () => setPage((p) => Math.max(0, p - 1));
   const handleNext = () => setPage((p) => Math.min(maxPage, p + 1));
 
-  // Kalkulasi pergeseran yang sekarang sudah dinamis
   const xOffset = `-${page * (100 / (cardsPerPage / step))}%`;
 
   if (isLoading) return <div className="py-20 text-center">Loading...</div>;

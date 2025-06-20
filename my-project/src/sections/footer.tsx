@@ -1,3 +1,5 @@
+"use client";
+
 import { Utensils, Facebook, Twitter, Instagram } from "lucide-react";
 
 export const Footer = () => {
@@ -73,12 +75,7 @@ export const Footer = () => {
               <li>Malang, Jawa Timur, Indonesia</li>
               <li>
                 <a href="mailto:contact@seacatering.com" className="foot-item">
-                  contact@seacatering.com
-                </a>
-              </li>
-              <li>
-                <a href="tel:+621234567890" className="foot-item">
-                  +62 123-4567-890
+                  +628123456789 (Brian)
                 </a>
               </li>
             </ul>
