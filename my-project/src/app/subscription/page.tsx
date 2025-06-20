@@ -1,12 +1,12 @@
-import { Header } from "@/app/subscription/sections/header";
-import { Subscription } from "@/app/subscription/sections/subscription";
-import { Footer } from "@/app/subscription/sections/footer";
+import { Header } from "@/app/sections/header";
+import { Footer } from "@/app/sections/footer";
+import { SubscriptionPlans } from "@/app/subscription/sections/subscription";
 
 export default function Home() {
   return (
     <main>
       <Header />
-      <Subscription />
+      <SubscriptionPlans />
       <Footer />
     </main>
   );

@@ -54,7 +54,7 @@ export const Contact = () => {
     <section className="min-h-screen w-full py-20 px-4 sm:px-6 lg:px-8 mt-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold font-serif bg-gradient-to-r from-rose-600 to-green-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold font-serif title-page">
             Get In Touch
           </h1>
           <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">

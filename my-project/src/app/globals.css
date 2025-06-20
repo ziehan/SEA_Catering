@@ -25,6 +25,10 @@ body {
   .foot-item {
     @apply hover:text-white transition-colors;
   }
+
+  .title-page {
+    @apply bg-gradient-to-r from-rose-600 to-green-600 bg-clip-text text-transparent;
+  }
 }
 
 @layer utilities {

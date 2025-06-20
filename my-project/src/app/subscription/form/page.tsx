@@ -1,12 +1,12 @@
 import { Header } from "@/app/sections/header";
-import { Contact } from "@/app/contact/sections/contact";
+import { SubscriptionForm } from "@/app/subscription/form/sections/subscriptionform";
 import { Footer } from "@/app/sections/footer";
 
 export default function Home() {
   return (
     <main>
       <Header />
-      <Contact />
+      <SubscriptionForm />
       <Footer />
     </main>
   );

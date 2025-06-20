@@ -106,7 +106,7 @@ export const Testimoni = () => {
       <div className="container px-4 mx-auto">
         <div className="mb-12 text-center md:mb-16">
           <motion.h2
-            className="text-4xl font-serif md:text-5xl"
+            className="text-4xl font-serif md:text-5xl title-page"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

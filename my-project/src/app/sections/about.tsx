@@ -338,7 +338,7 @@ export const About = () => {
           style={{ y: headerY }}
         >
           <motion.h2
-            className="text-5xl md:text-7xl font-serif text-gray-800 mb-6 bg-gradient-to-r from-gray-800 via-gray-600 to-gray-800 bg-clip-text text-transparent pb-2"
+            className="text-5xl md:text-7xl font-serif title-page pb-2"
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}

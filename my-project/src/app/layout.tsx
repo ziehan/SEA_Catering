@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Calistoga } from "next/font/google";
-import "./globals.css"; // Pastikan file ini ada
+import "./globals.css";
 import { twMerge } from "tailwind-merge";
+import { AuthProvider } from "@/components/AuthProvider";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -33,7 +34,7 @@ export default function RootLayout({
           "bg-white text-black antialiased font-sans"
         )}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

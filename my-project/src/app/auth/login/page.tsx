@@ -1,12 +1,12 @@
+import { LoginForm } from "@/app/auth/login/sections/loginform";
 import { Header } from "@/app/sections/header";
-import { Contact } from "@/app/contact/sections/contact";
 import { Footer } from "@/app/sections/footer";
 
-export default function Home() {
+export default function LoginPage() {
   return (
     <main>
       <Header />
-      <Contact />
+      <LoginForm />
       <Footer />
     </main>
   );

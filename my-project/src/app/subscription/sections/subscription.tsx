@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Leaf, Flame, Crown, Check } from "lucide-react";
+import Link from "next/link";
 
 const plans = [
   {
@@ -18,10 +19,7 @@ const plans = [
       "Focus on weight management",
     ],
     icon: Leaf,
-    colors: {
-      primary: "emerald",
-      buttonText: "white",
-    },
+    colors: { primary: "emerald", buttonText: "white" },
   },
   {
     name: "Protein Plan",
@@ -36,10 +34,7 @@ const plans = [
       "Ideal for active lifestyles",
     ],
     icon: Flame,
-    colors: {
-      primary: "rose",
-      buttonText: "white",
-    },
+    colors: { primary: "rose", buttonText: "white" },
   },
   {
     name: "Royal Plan",
@@ -54,37 +49,18 @@ const plans = [
       "The best we have to offer",
     ],
     icon: Crown,
-    colors: {
-      primary: "amber",
-      buttonText: "white",
-    },
+    colors: { primary: "amber", buttonText: "white" },
   },
 ];
 
-// Varian animasi untuk container dan item
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2, // Setiap kartu akan muncul dengan jeda 0.2 detik
-    },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
 };
-
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-    },
-  },
+  visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } },
 };
-
-// Objek untuk memetakan warna ke kelas Tailwind, agar Tailwind bisa mendeteksinya
 const colorStyles = {
   emerald: {
     text: "text-emerald-500",
@@ -106,13 +82,12 @@ const colorStyles = {
   },
 };
 
-// Komponen utama
-export const Subscription = () => {
+export const SubscriptionPlans = () => {
   return (
-    <section className="min-h-screen bg-gray-50 py-16 sm:py-24 px-4">
+    <section className="min-h-screen py-16 sm:py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-rose-700 to-green-500 bg-clip-text text-transparent font-serif">
+          <h1 className="text-4xl md:text-5xl font-bold font-serif title-page">
             Choose Your Perfect Plan
           </h1>
           <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
@@ -120,8 +95,6 @@ export const Subscription = () => {
             and lifestyle.
           </p>
         </div>
-
-        {/* Grid untuk Kartu Plan */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
@@ -132,15 +105,13 @@ export const Subscription = () => {
             const Icon = plan.icon;
             const styles =
               colorStyles[plan.colors.primary as keyof typeof colorStyles];
-
             return (
               <motion.div
                 key={plan.name}
                 variants={itemVariants}
-                whileHover={{ y: -8, scale: 1.02 }} // Animasi saat hover
+                whileHover={{ y: -8, scale: 1.02 }}
                 className="flex flex-col bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden"
               >
-                {/* Bagian Atas Kartu */}
                 <div className="p-8">
                   <div className="flex items-center gap-4 mb-4">
                     <Icon className={`w-10 h-10 ${styles.text}`} />
@@ -158,8 +129,6 @@ export const Subscription = () => {
                     </span>
                   </div>
                 </div>
-
-                {/* Bagian Bawah Kartu (Fitur) */}
                 <div className="p-8 pt-0 flex-grow flex flex-col">
                   <ul className="space-y-3 mb-8 flex-grow">
                     {plan.features.map((feature, index) => (
@@ -169,16 +138,12 @@ export const Subscription = () => {
                       </li>
                     ))}
                   </ul>
-
-                  {/* Tombol Interaktif */}
-                  <button
-                    className={`w-full py-3 px-6 rounded-lg font-bold text-lg transition-all duration-300 shadow-md
-                      ${styles.bg} ${styles.hoverBg} text-${plan.colors.buttonText}
-                      focus:outline-none focus:ring-4 ${styles.ring}
-                    `}
+                  <Link
+                    href={`/subscription/form?plan=${encodeURIComponent(plan.name)}`}
+                    className={`block text-center w-full py-3 px-6 rounded-lg font-bold text-lg transition-all duration-300 shadow-md ${styles.bg} ${styles.hoverBg} text-${plan.colors.buttonText} focus:outline-none focus:ring-4 ${styles.ring}`}
                   >
                     Choose Plan
-                  </button>
+                  </Link>
                 </div>
               </motion.div>
             );

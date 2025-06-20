@@ -483,7 +483,7 @@ export const Menu: React.FC = () => {
       <section className="p-6 sm:p-8 md:p-12 bg-gradient-to-br mt-12 mb-10 min-h-screen">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 pb-1 bg-gradient-to-r from-rose-700 to-green-500 bg-clip-text text-transparent font-serif">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 pb-1 title-page font-serif">
               Explore Our Daily Dishes
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">

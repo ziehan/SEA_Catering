@@ -1,12 +1,12 @@
+import { RegisterForm } from "@/app/auth/register/sections/registerform";
 import { Header } from "@/app/sections/header";
-import { Contact } from "@/app/contact/sections/contact";
 import { Footer } from "@/app/sections/footer";
 
-export default function Home() {
+export default function RegisterPage() {
   return (
     <main>
       <Header />
-      <Contact />
+      <RegisterForm />
       <Footer />
     </main>
   );

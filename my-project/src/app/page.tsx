@@ -1,8 +1,8 @@
-import { Header } from "@/sections/header";
-import { Hero } from "@/sections/hero";
-import { About } from "@/sections/about";
-import { Testimoni } from "@/sections/testimoni";
-import { Footer } from "@/sections/footer";
+import { Header } from "@/app/sections/header";
+import { Hero } from "@/app/sections/hero";
+import { About } from "@/app/sections/about";
+import { Testimoni } from "@/app/sections/testimoni";
+import { Footer } from "@/app/sections/footer";
 
 export default function Home() {
   return (
