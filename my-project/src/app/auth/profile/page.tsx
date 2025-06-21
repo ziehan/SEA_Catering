@@ -26,8 +26,9 @@ async function getDataForEdit(subscriptionId: string, userEmail: string) {
   try {
     await dbConnect();
 
-    const subscription =
-      await Subscription.findById<ISubscription>(subscriptionId).lean();
+    const subscription = (await Subscription.findById(
+      subscriptionId
+    ).lean()) as ISubscription | null;
 
     if (!subscription || subscription.userEmail !== userEmail) {
       return { subscription: null, allMeals: [] };
