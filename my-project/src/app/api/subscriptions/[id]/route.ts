@@ -8,6 +8,14 @@ interface Params {
   params: { id: string };
 }
 
+type MealSelection = {
+  mealType: string;
+  mealId: number;
+  mealTitle: string;
+  mealDescription: string;
+};
+type DailySchedule = { date: string; meals: MealSelection[] };
+
 export async function DELETE(request: Request, { params }: Params) {
   const session = await getServerSession(authOptions);
   const { id } = params;
@@ -20,7 +28,11 @@ export async function DELETE(request: Request, { params }: Params) {
     await dbConnect();
     const subscription = await Subscription.findById(id);
 
-    if (!subscription || subscription.userEmail !== session.user.email) {
+    if (
+      !subscription ||
+      (subscription.userEmail !== session.user.email &&
+        session.user.role !== "admin")
+    ) {
       return NextResponse.json(
         { message: "Forbidden or Not Found" },
         { status: 403 }
@@ -33,9 +45,16 @@ export async function DELETE(request: Request, { params }: Params) {
       { message: "Subscription cancelled successfully" },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("API DELETE Error:", error);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    const message =
+      error instanceof Error
+        ? error.message
+        : "An unknown server error occurred";
+    return NextResponse.json(
+      { message: "Server error", error: message },
+      { status: 500 }
+    );
   }
 }
 
@@ -53,14 +72,18 @@ export async function PATCH(request: Request, { params }: Params) {
 
     const subscription = await Subscription.findById(id);
 
-    if (!subscription || subscription.userEmail !== session.user.email) {
+    if (
+      !subscription ||
+      (subscription.userEmail !== session.user.email &&
+        session.user.role !== "admin")
+    ) {
       return NextResponse.json(
         { message: "Forbidden or Not Found" },
         { status: 403 }
       );
     }
 
-    const updateData: { status?: string; schedule?: any } = {};
+    const updateData: { status?: string; schedule?: DailySchedule[] } = {};
 
     if (body.status) {
       if (!["active", "paused"].includes(body.status)) {
@@ -93,10 +116,14 @@ export async function PATCH(request: Request, { params }: Params) {
       { success: true, data: updatedSubscription },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("API PATCH Error:", error);
+    const message =
+      error instanceof Error
+        ? error.message
+        : "An unknown server error occurred";
     return NextResponse.json(
-      { message: "Server error", error: error.message },
+      { message: "Server error", error: message },
       { status: 500 }
     );
   }

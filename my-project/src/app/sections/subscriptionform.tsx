@@ -18,6 +18,7 @@ const mealTypeOptions = ["Breakfast", "Lunch", "Dinner"];
 const deliveryDayOptions = [
   "Sunday",
   "Monday",
+
   "Tuesday",
   "Wednesday",
   "Thursday",
@@ -40,6 +41,7 @@ export const SubscriptionForm = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [formStatus, setFormStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Ditambahkan
 
   useEffect(() => {
     const planNameFromUrl = searchParams.get("plan");
@@ -82,6 +84,7 @@ export const SubscriptionForm = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setFormStatus("submitting");
+    setIsLoading(true); // Ditambahkan
     setErrorMessage("");
 
     const schedule = [];
@@ -140,9 +143,11 @@ export const SubscriptionForm = () => {
         throw new Error(result.error || "Failed to submit subscription.");
       }
       setFormStatus("success");
-    } catch (error: any) {
+    } catch (error: unknown) {
       setFormStatus("error");
-      setErrorMessage(error.message);
+      const message =
+        error instanceof Error ? error.message : "An unknown error occurred";
+      setErrorMessage(message);
     } finally {
       setIsLoading(false);
     }

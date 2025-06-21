@@ -33,7 +33,7 @@ export const RegisterForm = () => {
         const data = await res.json();
         setError(data.message || "Registration failed.");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An unexpected error occurred.");
     } finally {
       setIsLoading(false);

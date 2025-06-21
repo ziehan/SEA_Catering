@@ -30,7 +30,7 @@ export const LoginForm = () => {
         router.push("/menu");
         router.refresh();
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An unexpected error occurred.");
     } finally {
       setIsLoading(false);
@@ -119,7 +119,7 @@ export const LoginForm = () => {
             </motion.button>
 
             <p className="text-center text-sm text-gray-600">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link
                 href="/auth/register"
                 className="font-semibold text-emerald-600 hover:underline"

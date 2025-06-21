@@ -4,7 +4,7 @@ import dbConnect from "@/lib/mongodb";
 import Subscription from "@/models/Subscription";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(_request: Request) {
   const session = await getServerSession(authOptions);
 
   if (!session || session.user?.role !== "admin") {

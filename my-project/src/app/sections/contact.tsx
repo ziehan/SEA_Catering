@@ -75,8 +75,8 @@ export const Contact = () => {
             Get In Touch
           </h1>
           <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-            We're here to help and answer any question you might have. We look
-            forward to hearing from you!
+            We&apos;re here to help and answer any question you might have. We
+            look forward to hearing from you!
           </p>
         </div>
         <div className="grid lg:grid-cols-2 gap-16 items-start">

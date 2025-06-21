@@ -36,9 +36,11 @@ export async function POST(request: Request) {
       { success: true, data: newSubscription },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "An unknown error occurred";
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, error: message },
       { status: 500 }
     );
   }

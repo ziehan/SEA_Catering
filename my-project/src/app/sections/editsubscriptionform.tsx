@@ -83,9 +83,11 @@ export const EditSubscriptionForm: React.FC<EditFormProps> = ({
       toast.success("Schedule updated successfully!");
       router.push("/auth/profile");
       router.refresh();
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast.dismiss();
-      toast.error(err.message);
+      const message =
+        err instanceof Error ? err.message : "An unknown error occurred";
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }

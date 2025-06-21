@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   BarChart,
@@ -17,7 +16,6 @@ import {
   Briefcase,
   DollarSign,
   UserPlus,
-  MoreVertical,
   Edit,
   Trash2,
   AlertTriangle,
@@ -25,8 +23,23 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+
+interface IStats {
+  newSubscriptions?: number;
+  totalActiveSubscriptions?: number;
+  mrr?: number;
+}
+
+interface ISubscription {
+  _id: string;
+  planName: string;
+  status: "active" | "paused" | "cancelled";
+  userDetails: {
+    fullName: string;
+    email: string;
+  };
+}
 
 const StatCard = ({
   title,
@@ -35,7 +48,7 @@ const StatCard = ({
   formatAsCurrency = false,
 }: {
   title: string;
-  value: any;
+  value: number | undefined;
   icon: React.ElementType;
   formatAsCurrency?: boolean;
 }) => {
@@ -92,8 +105,8 @@ const CancelModal = ({
             Cancel Subscription?
           </h2>
           <p className="text-gray-600 mt-2">
-            This action is permanent and will set the user's subscription status
-            to 'cancelled'.
+            This action is permanent and will set the user&apos;s subscription
+            status to &apos;cancelled&apos;.
           </p>
         </div>
         <div className="flex gap-4 mt-8">
@@ -117,10 +130,15 @@ const CancelModal = ({
   );
 };
 
+const statusStyles = {
+  active: "bg-emerald-100 text-emerald-800",
+  paused: "bg-amber-100 text-amber-800",
+  cancelled: "bg-rose-100 text-rose-800",
+};
+
 export const AdminDashboardClient = () => {
-  const router = useRouter();
-  const [stats, setStats] = useState<any>({});
-  const [subscriptions, setSubscriptions] = useState<any[]>([]);
+  const [stats, setStats] = useState<IStats>({});
+  const [subscriptions, setSubscriptions] = useState<ISubscription[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -146,9 +164,11 @@ export const AdminDashboardClient = () => {
 
       setStats(statsData);
       setSubscriptions(subsData);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "An unknown error occurred";
       console.error("Failed to fetch dashboard data", error);
-      toast.error(error.message || "Failed to load dashboard data.");
+      toast.error(errorMessage || "Failed to load dashboard data.");
     } finally {
       setLoading(false);
     }
@@ -228,7 +248,7 @@ export const AdminDashboardClient = () => {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Plan
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font--medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Status
                       </th>
                       <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -259,7 +279,7 @@ export const AdminDashboardClient = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span
-                              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${sub.status === "active" ? "emerald" : sub.status === "paused" ? "amber" : "rose"}-100 text-${sub.status === "active" ? "emerald" : sub.status === "paused" ? "amber" : "rose"}-800`}
+                              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusStyles[sub.status]}`}
                             >
                               {sub.status}
                             </span>

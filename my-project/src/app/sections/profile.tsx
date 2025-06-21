@@ -20,7 +20,6 @@ import {
   Settings,
   X,
 } from "lucide-react";
-import Image from "next/image";
 
 const CancelModal = ({
   isOpen,
@@ -83,8 +82,9 @@ const CancelModal = ({
                 transition={{ delay: 0.4 }}
                 className="text-gray-600 leading-relaxed"
               >
-                This will permanently cancel your subscription and you'll lose
-                access to all scheduled meals. This action cannot be undone.
+                This will permanently cancel your subscription and you&apos;ll
+                lose access to all scheduled meals. This action cannot be
+                undone.
               </motion.p>
             </div>
 
@@ -131,8 +131,7 @@ const LoadingButton = ({
   isLoading: boolean;
   children: React.ReactNode;
   className?: string;
-  [key: string]: any;
-}) => (
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) => (
   <motion.button
     className={`relative overflow-hidden ${className}`}
     whileHover={{ scale: isLoading ? 1 : 1.02 }}
@@ -238,7 +237,6 @@ export const ProfileClient: React.FC<ProfileClientProps> = ({
   const router = useRouter();
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [activeSection, setActiveSection] = useState("profile");
 
   const [userInfo, setUserInfo] = useState({
     fullName: session.user?.name || "",
@@ -264,8 +262,10 @@ export const ProfileClient: React.FC<ProfileClientProps> = ({
 
       toast.success("Profile updated successfully!", { id: "profile-update" });
       router.refresh();
-    } catch (error: any) {
-      toast.error(error.message || "Something went wrong", {
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Something went wrong";
+      toast.error(message, {
         id: "profile-update",
       });
     } finally {
@@ -296,8 +296,10 @@ export const ProfileClient: React.FC<ProfileClientProps> = ({
 
       toast.success(`Subscription ${newStatus} successfully.`, { id: toastId });
       router.refresh();
-    } catch (error: any) {
-      toast.error(error.message || "Something went wrong", { id: toastId });
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Something went wrong";
+      toast.error(message, { id: toastId });
     } finally {
       setIsLoading(false);
     }
@@ -319,8 +321,10 @@ export const ProfileClient: React.FC<ProfileClientProps> = ({
 
       toast.success("Subscription cancelled successfully.");
       router.refresh();
-    } catch (error: any) {
-      toast.error(error.message || "Something went wrong");
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Something went wrong";
+      toast.error(message);
     } finally {
       setIsLoading(false);
       setIsCancelModalOpen(false);

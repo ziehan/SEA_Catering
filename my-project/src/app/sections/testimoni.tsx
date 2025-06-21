@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { easeInOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Review = {
@@ -11,6 +11,13 @@ type Review = {
   location: string;
   picture: string;
   message: string;
+};
+
+type RandomUser = {
+  login: { uuid: string };
+  name: { first: string; last: string };
+  location: { city: string; country: string };
+  picture: { large: string };
 };
 
 const reviewMessages = [
@@ -62,7 +69,8 @@ export const Testimoni = () => {
     lg: { cardsPerPage: 4, step: 2 },
   };
 
-  const { cardsPerPage, step } = sliderConfig[breakpoint];
+  const { cardsPerPage, step } =
+    sliderConfig[breakpoint as keyof typeof sliderConfig];
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -70,16 +78,22 @@ export const Testimoni = () => {
         const response = await fetch("https://randomuser.me/api/?results=12");
         if (!response.ok) throw new Error("Failed to fetch data from server");
         const data = await response.json();
-        const combined = data.results.map((user: any, index: number) => ({
-          id: user.login.uuid,
-          name: `${user.name.first} ${user.name.last}`,
-          location: `${user.location.city}, ${user.location.country}`,
-          picture: user.picture.large,
-          message: reviewMessages[index % reviewMessages.length],
-        }));
+        const combined = data.results.map(
+          (user: RandomUser, index: number) => ({
+            id: user.login.uuid,
+            name: `${user.name.first} ${user.name.last}`,
+            location: `${user.location.city}, ${user.location.country}`,
+            picture: user.picture.large,
+            message: reviewMessages[index % reviewMessages.length],
+          })
+        );
         setReviews(combined);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred");
+        }
       } finally {
         setIsLoading(false);
       }
@@ -165,7 +179,7 @@ export const Testimoni = () => {
                     {review.location}
                   </p>
                   <p className="text-base leading-relaxed text-gray-600">
-                    "{review.message}"
+                    &quot;{review.message}&quot;
                   </p>
                 </motion.div>
               ))}
