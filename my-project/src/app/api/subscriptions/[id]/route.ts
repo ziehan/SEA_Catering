@@ -18,7 +18,7 @@ type MealSelection = {
 };
 type DailySchedule = { date: string; meals: MealSelection[] };
 
-// @ts-expect-error
+// @ts-expect-error: Next.js 15 App Router route handler type issue
 export async function DELETE(request: Request, context: Context) {
   const session = await getServerSession(authOptions);
   const { id } = context.params;
@@ -61,7 +61,7 @@ export async function DELETE(request: Request, context: Context) {
   }
 }
 
-// @ts-expect-error
+// @ts-expect-error: Next.js 15 App Router route handler type issue
 export async function PATCH(request: Request, context: Context) {
   const session = await getServerSession(authOptions);
   const { id } = context.params;
