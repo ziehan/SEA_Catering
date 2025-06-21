@@ -1,4 +1,4 @@
-import { LoginForm } from "@/app/auth/login/sections/loginform";
+import { LoginForm } from "@/app/sections/loginform";
 import { Header } from "@/app/sections/header";
 import { Footer } from "@/app/sections/footer";
 

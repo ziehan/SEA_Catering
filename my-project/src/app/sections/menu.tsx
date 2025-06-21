@@ -3,10 +3,21 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { X, Clock, Users, Zap } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { X, Clock, Users, Zap, AlertTriangle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MENU_DATA, MenuItemType, PlanType } from "@/lib/menu-data";
 
+type ActiveSubscription = {
+  _id: string;
+  planName: string;
+} | null;
+
+interface MenuProps {
+  activeSubscription: ActiveSubscription;
+}
 interface MenuItemProps {
   item: MenuItemType;
   className?: string;
@@ -16,6 +27,7 @@ interface PopupProps {
   item: MenuItemType | null;
   isOpen: boolean;
   onClose: () => void;
+  activeSubscription: ActiveSubscription;
 }
 
 const HOVER_ANIMATION = {
@@ -94,12 +106,6 @@ const MenuItem: React.FC<MenuItemProps> = ({
               <p className="text-sm text-white/90 line-clamp-2">
                 {item.description}
               </p>
-              <div className="flex items-center mt-2 text-xs text-white/80">
-                <Users className="w-3 h-3 mr-1" />
-                <span>{item.servings} servings</span>
-                <span className="mx-2">•</span>
-                <span>{item.nutrition.calories} cal</span>
-              </div>
             </div>
           )}
         </div>
@@ -113,8 +119,39 @@ const MenuItem: React.FC<MenuItemProps> = ({
   );
 };
 
-const MenuPopup: React.FC<PopupProps> = ({ item, isOpen, onClose }) => {
+const MenuPopup: React.FC<PopupProps> = ({
+  item,
+  isOpen,
+  onClose,
+  activeSubscription,
+}) => {
+  const { status } = useSession();
+  const router = useRouter();
+
   if (!item) return null;
+
+  const handleOrderClick = () => {
+    if (status !== "authenticated") {
+      router.push("/auth/login");
+      return;
+    }
+
+    if (activeSubscription) {
+      if (activeSubscription.planName === item.planType) {
+        router.push(`/auth/subscription/edit/${activeSubscription._id}`);
+      } else {
+        toast.error(
+          `You are on the ${activeSubscription.planName}. Please manage it on your profile.`,
+          { icon: <AlertTriangle className="text-red-500" /> }
+        );
+      }
+    } else {
+      router.push(
+        `/subscription/form?plan=${encodeURIComponent(item.planType)}`
+      );
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -247,12 +284,13 @@ const MenuPopup: React.FC<PopupProps> = ({ item, isOpen, onClose }) => {
                   </div>
                 </div>
               </div>
-              <Link
-                href={`/subscription/form?plan=${encodeURIComponent(item.planType)}`}
+
+              <button
+                onClick={handleOrderClick}
                 className="block w-full text-center bg-gradient-to-r from-emerald-500 to-blue-500 text-white py-4 rounded-2xl font-bold text-lg hover:from-emerald-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-[1.02] shadow-lg"
               >
                 Order This Plan
-              </Link>
+              </button>
             </div>
           </motion.div>
         </motion.div>
@@ -261,12 +299,13 @@ const MenuPopup: React.FC<PopupProps> = ({ item, isOpen, onClose }) => {
   );
 };
 
-export const Menu: React.FC = () => {
+export const Menu: React.FC<MenuProps> = ({ activeSubscription }) => {
   const [selectedItem, setSelectedItem] = useState<MenuItemType | null>(null);
   const [visibleItemsCount, setVisibleItemsCount] = useState(15);
   const handleItemClick = (item: MenuItemType) => setSelectedItem(item);
   const handleClosePopup = () => setSelectedItem(null);
   const handleSeeMore = () => setVisibleItemsCount(MENU_DATA.length);
+
   return (
     <>
       <section className="p-6 sm:p-8 md:p-12 min-h-screen mt-12 mb-12 bg-gray-100">
@@ -318,6 +357,7 @@ export const Menu: React.FC = () => {
         item={selectedItem}
         isOpen={Boolean(selectedItem)}
         onClose={handleClosePopup}
+        activeSubscription={activeSubscription}
       />
     </>
   );

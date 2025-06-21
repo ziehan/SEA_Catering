@@ -6,7 +6,7 @@ import Subscription from "@/models/Subscription";
 
 import { Header } from "@/app/sections/header";
 import { Footer } from "@/app/sections/footer";
-import { ProfileClient } from "@/app/auth/profile/sections/profile";
+import { ProfileClient } from "@/app/sections/profile";
 
 async function getUserData(email: string) {
   await dbConnect();

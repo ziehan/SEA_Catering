@@ -14,6 +14,13 @@ export async function POST(request: Request) {
     );
   }
 
+  if (session.user.role === "admin") {
+    return NextResponse.json(
+      { success: false, error: "Admins cannot create subscriptions." },
+      { status: 403 }
+    );
+  }
+
   try {
     await dbConnect();
     const body = await request.json();

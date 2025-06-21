@@ -1,4 +1,4 @@
-import { Success } from "@/app/contact/success/sections/success";
+import { Success } from "@/app/sections/success";
 
 export default function Home() {
   return (

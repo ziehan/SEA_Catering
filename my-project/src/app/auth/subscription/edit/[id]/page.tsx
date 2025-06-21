@@ -7,7 +7,7 @@ import { MENU_DATA } from "@/lib/menu-data";
 
 import { Header } from "@/app/sections/header";
 import { Footer } from "@/app/sections/footer";
-import { EditSubscriptionForm } from "@/app/auth/subscription/edit/[id]/sections/editsubscriptionform";
+import { EditSubscriptionForm } from "@/app/sections/editsubscriptionform";
 
 interface EditPageProps {
   params: {

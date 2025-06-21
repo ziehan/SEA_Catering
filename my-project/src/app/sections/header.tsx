@@ -28,7 +28,9 @@ export const Header = () => {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/menu", label: "Menu" },
-    { href: "/subscription", label: "Subscription" },
+    ...(session?.user?.role !== "admin"
+      ? [{ href: "/subscription", label: "Subscription" }]
+      : []),
     { href: "/contact", label: "Contact" },
   ];
 
@@ -52,13 +54,16 @@ export const Header = () => {
               <Link
                 key={link.label}
                 href={link.href}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${isActive ? "bg-black text-white" : "text-gray-800 hover:bg-gray-200"}`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${
+                  isActive
+                    ? "bg-black text-white"
+                    : "text-gray-800 hover:bg-gray-200"
+                }`}
               >
                 {link.label}
               </Link>
             );
           })}
-
           <div className="pl-2">
             {status === "loading" ? (
               <div className="w-24 h-8 bg-gray-200 rounded-full animate-pulse"></div>
@@ -69,6 +74,11 @@ export const Header = () => {
                   className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 hover:bg-gray-200 transition-colors"
                 >
                   Hi, {session.user?.name?.split(" ")[0]}
+                  {session.user.role === "admin" && (
+                    <span className="bg-rose-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                      ADMIN
+                    </span>
+                  )}
                 </button>
                 <AnimatePresence>
                   {isProfileOpen && (
@@ -79,14 +89,25 @@ export const Header = () => {
                       className="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100"
                     >
                       <div className="py-1">
-                        <Link
-                          href="/auth/profile"
-                          onClick={() => setIsProfileOpen(false)}
-                          className="flex items-center gap-3 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          <User className="w-4 h-4" />
-                          View Profile
-                        </Link>
+                        {session.user.role === "admin" ? (
+                          <Link
+                            href="/admin/dashboard"
+                            onClick={() => setIsProfileOpen(false)}
+                            className="flex items-center gap-3 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            <LayoutDashboard className="w-4 h-4" />
+                            Admin Dashboard
+                          </Link>
+                        ) : (
+                          <Link
+                            href="/auth/profile"
+                            onClick={() => setIsProfileOpen(false)}
+                            className="flex items-center gap-3 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            <User className="w-4 h-4" />
+                            View Profile
+                          </Link>
+                        )}
                         <button
                           onClick={() => {
                             signOut();
@@ -107,7 +128,7 @@ export const Header = () => {
                 href="/auth/login"
                 className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-emerald-500 text-white hover:bg-emerald-600 transition-colors"
               >
-                <LogIn className="h-4 w-4" />
+                <LogIn className="w-4 h-4" />
                 Login
               </Link>
             )}
@@ -154,7 +175,11 @@ export const Header = () => {
                     <Link
                       href={link.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`text-2xl font-semibold transition-colors duration-300 ${isActive ? "text-white" : "text-white/60 hover:text-white"}`}
+                      className={`text-2xl font-semibold transition-colors duration-300 ${
+                        isActive
+                          ? "text-white"
+                          : "text-white/60 hover:text-white"
+                      }`}
                     >
                       {link.label}
                     </Link>
@@ -168,14 +193,25 @@ export const Header = () => {
               >
                 {status === "authenticated" ? (
                   <>
-                    <Link
-                      href="/profile"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-3 text-white text-xl font-semibold"
-                    >
-                      <UserCircle className="w-6 h-6" />
-                      Hi, {session.user?.name?.split(" ")[0]}
-                    </Link>
+                    {session.user.role === "admin" ? (
+                      <Link
+                        href="/admin/dashboard"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex items-center gap-3 text-white text-xl font-semibold"
+                      >
+                        <LayoutDashboard className="w-6 h-6" />
+                        Dashboard
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/auth/profile"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex items-center gap-3 text-white text-xl font-semibold"
+                      >
+                        <UserCircle className="w-6 h-6" />
+                        Hi, {session.user?.name?.split(" ")[0]}
+                      </Link>
+                    )}
                     <button
                       onClick={() => {
                         signOut();
@@ -189,7 +225,7 @@ export const Header = () => {
                   </>
                 ) : (
                   <Link
-                    href="/login"
+                    href="/auth/login"
                     onClick={() => setIsMenuOpen(false)}
                     className="flex items-center gap-2 mt-4 px-6 py-3 rounded-full bg-emerald-500 text-white font-bold text-lg"
                   >

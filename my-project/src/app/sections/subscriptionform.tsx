@@ -173,7 +173,7 @@ export const SubscriptionForm = () => {
     <section className="py-20 px-4 mt-4 bg-gray-100">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold font-serif pb-1">
+          <h1 className="text-4xl md:text-5xl font-bold font-serif title-page pb-1">
             Create Your Subscription
           </h1>
           <p className="mt-4 text-lg text-gray-600">

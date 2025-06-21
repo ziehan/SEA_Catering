@@ -1,5 +1,5 @@
 import { Header } from "@/app/sections/header";
-import { SubscriptionForm } from "@/app/subscription/form/sections/subscriptionform";
+import { SubscriptionForm } from "@/app/sections/subscriptionform";
 import { Footer } from "@/app/sections/footer";
 
 export default function Home() {

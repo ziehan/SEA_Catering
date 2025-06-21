@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Leaf, Flame, Crown, Check } from "lucide-react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const plans = [
   {
@@ -83,6 +84,8 @@ const colorStyles = {
 };
 
 export const SubscriptionPlans = () => {
+  const { data: session } = useSession();
+
   return (
     <section className="min-h-screen py-16 sm:py-24 px-4">
       <div className="max-w-7xl mx-auto">
@@ -138,12 +141,14 @@ export const SubscriptionPlans = () => {
                       </li>
                     ))}
                   </ul>
-                  <Link
-                    href={`/subscription/form?plan=${encodeURIComponent(plan.name)}`}
-                    className={`block text-center w-full py-3 px-6 rounded-lg font-bold text-lg transition-all duration-300 shadow-md ${styles.bg} ${styles.hoverBg} text-${plan.colors.buttonText} focus:outline-none focus:ring-4 ${styles.ring}`}
-                  >
-                    Choose Plan
-                  </Link>
+                  {session?.user?.role !== "admin" && (
+                    <Link
+                      href={`/subscription/form?plan=${encodeURIComponent(plan.name)}`}
+                      className={`block text-center w-full py-3 px-6 rounded-lg font-bold text-lg transition-all duration-300 shadow-md ${styles.bg} ${styles.hoverBg} text-${plan.colors.buttonText} focus:outline-none focus:ring-4 ${styles.ring}`}
+                    >
+                      Choose Plan
+                    </Link>
+                  )}
                 </div>
               </motion.div>
             );

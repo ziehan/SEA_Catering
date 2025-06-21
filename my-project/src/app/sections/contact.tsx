@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent, useRef } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   HelpCircle,
@@ -10,6 +12,7 @@ import {
   Mail,
   Phone,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 const contactPoints = [
   {
@@ -34,7 +37,6 @@ const contactPoints = [
     color: "rose",
   },
 ];
-
 const colorStyles = {
   blue: { text: "text-blue-600", bg: "bg-blue-100" },
   emerald: { text: "text-emerald-600", bg: "bg-emerald-100" },
@@ -42,13 +44,28 @@ const colorStyles = {
 };
 
 export const Contact = () => {
+  const { status } = useSession();
+  const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
   const [redirectUrl, setRedirectUrl] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setRedirectUrl(`${window.location.origin}/contact/success`);
+      setRedirectUrl(`${window.location.origin}/success`);
     }
   }, []);
+
+  const handleContactSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    if (status !== "authenticated") {
+      toast.error("You must log in to send a message.");
+      router.push("/auth/login");
+    } else {
+      formRef.current?.submit();
+      toast.success("Your message is being sent!");
+    }
+  };
 
   return (
     <section className="min-h-screen w-full py-20 px-4 sm:px-6 lg:px-8 mt-4">
@@ -62,7 +79,6 @@ export const Contact = () => {
             forward to hearing from you!
           </p>
         </div>
-
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           <motion.div
             className="space-y-8"
@@ -93,7 +109,6 @@ export const Contact = () => {
               );
             })}
           </motion.div>
-
           <motion.div
             className="bg-gray-100 backdrop-blur-2xl p-8 rounded-2xl shadow-lg border border-gray-100"
             initial={{ opacity: 0, x: 50 }}
@@ -104,27 +119,22 @@ export const Contact = () => {
               Send Us a Message
             </h2>
             <form
+              ref={formRef}
               action="https://api.web3forms.com/submit"
               method="POST"
               className="space-y-6"
-              onSubmit={() => {
-                sessionStorage.setItem("contactFormSubmitted", "true");
-              }}
             >
               <input
                 type="hidden"
                 name="access_key"
                 value="29b2277f-9681-45b4-a0fe-7543873a06b3"
               />
-
               <input type="hidden" name="redirect" value={redirectUrl} />
-
               <input
                 type="hidden"
                 name="subject"
                 value="New Contact Message from SEA Catering Website"
               />
-
               <div>
                 <label
                   htmlFor="name"
@@ -146,7 +156,6 @@ export const Contact = () => {
                   />
                 </div>
               </div>
-
               <div>
                 <label
                   htmlFor="email"
@@ -168,7 +177,6 @@ export const Contact = () => {
                   />
                 </div>
               </div>
-
               <div>
                 <label
                   htmlFor="phone"
@@ -189,7 +197,6 @@ export const Contact = () => {
                   />
                 </div>
               </div>
-
               <div>
                 <label
                   htmlFor="message"
@@ -208,27 +215,13 @@ export const Contact = () => {
                   ></textarea>
                 </div>
               </div>
-
               <div>
                 <motion.button
-                  type="submit"
-                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-rose-500 hover:bg-green-500"
-                  whileHover={{
-                    scale: 1.01,
-                    transition: {
-                      type: "tween",
-                      duration: 0.2,
-                      ease: "easeInOut",
-                    },
-                  }}
-                  whileTap={{
-                    scale: 0.98,
-                    transition: {
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 15,
-                    },
-                  }}
+                  type="button"
+                  onClick={handleContactSubmit}
+                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-emerald-600 hover:bg-emerald-700"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   Send Message
                 </motion.button>

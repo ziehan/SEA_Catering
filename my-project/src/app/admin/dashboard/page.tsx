@@ -1,12 +1,12 @@
-import { RegisterForm } from "@/app/sections/registerform";
 import { Header } from "@/app/sections/header";
+import { AdminDashboardClient } from "@/app/sections/admindashboard";
 import { Footer } from "@/app/sections/footer";
 
-export default function RegisterPage() {
+export default function AdminDashboardPage() {
   return (
     <main>
       <Header />
-      <RegisterForm />
+      <AdminDashboardClient />
       <Footer />
     </main>
   );
