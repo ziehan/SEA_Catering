@@ -36,7 +36,6 @@ const gridItemVariants = {
   visible: { y: 0, opacity: 1 },
 };
 
-// Komponen MenuItem (Tidak ada perubahan logika)
 const MenuItem: React.FC<MenuItemProps> = ({
   item,
   className = "",
@@ -114,7 +113,6 @@ const MenuItem: React.FC<MenuItemProps> = ({
   );
 };
 
-// Komponen MenuPopup (Tidak ada perubahan logika)
 const MenuPopup: React.FC<PopupProps> = ({ item, isOpen, onClose }) => {
   if (!item) return null;
   return (
@@ -263,7 +261,6 @@ const MenuPopup: React.FC<PopupProps> = ({ item, isOpen, onClose }) => {
   );
 };
 
-// Komponen Utama Menu (Tidak ada perubahan logika)
 export const Menu: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<MenuItemType | null>(null);
   const [visibleItemsCount, setVisibleItemsCount] = useState(15);
@@ -272,10 +269,10 @@ export const Menu: React.FC = () => {
   const handleSeeMore = () => setVisibleItemsCount(MENU_DATA.length);
   return (
     <>
-      <section className="p-6 sm:p-8 md:p-12 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+      <section className="p-6 sm:p-8 md:p-12 min-h-screen mt-12 mb-12 bg-gray-100">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent font-serif">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 title-page font-serif pb-1">
               Explore Our Daily Dishes
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">

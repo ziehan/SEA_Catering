@@ -321,7 +321,7 @@ export const About = () => {
   return (
     <section
       ref={containerRef}
-      className="relative bg-gradient-to-br from-slate-50 via-white to-blue-50/30 text-black py-20 md:py-32 overflow-hidden"
+      className="relative bg-gray-100 text-black py-20 md:py-32 overflow-hidden"
     >
       <motion.div
         className="absolute inset-0 overflow-hidden"

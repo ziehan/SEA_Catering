@@ -4,6 +4,7 @@ import React, { useState, useEffect, FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Loader2, AlertCircle, Check } from "lucide-react";
+import { MENU_DATA } from "@/lib/menu-data";
 
 type Plan = { name: string; price: number };
 type FormStatus = "idle" | "submitting" | "success" | "error";
@@ -85,7 +86,6 @@ export const SubscriptionForm = () => {
 
     const schedule = [];
     const today = new Date();
-
     for (let i = 0; i < 30; i++) {
       const futureDate = new Date(today);
       futureDate.setDate(today.getDate() + i);
@@ -143,6 +143,8 @@ export const SubscriptionForm = () => {
     } catch (error: any) {
       setFormStatus("error");
       setErrorMessage(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -168,7 +170,7 @@ export const SubscriptionForm = () => {
   }
 
   return (
-    <section className="py-20 px-4">
+    <section className="py-20 px-4 mt-4 bg-gray-100">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold font-serif pb-1">
@@ -209,7 +211,11 @@ export const SubscriptionForm = () => {
               {planOptions.map((plan) => (
                 <label
                   key={plan.name}
-                  className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 ${selectedPlan?.name === plan.name ? "border-emerald-500 ring-2 ring-emerald-300" : "border-gray-300"}`}
+                  className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
+                    selectedPlan?.name === plan.name
+                      ? "border-emerald-500 ring-2 ring-emerald-300"
+                      : "border-gray-300"
+                  }`}
                 >
                   <input
                     type="radio"

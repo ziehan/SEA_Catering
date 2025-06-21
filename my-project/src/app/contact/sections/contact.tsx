@@ -95,7 +95,7 @@ export const Contact = () => {
           </motion.div>
 
           <motion.div
-            className="bg-gray-100/50 backdrop-blur-2xl p-8 rounded-2xl shadow-lg border border-gray-100"
+            className="bg-gray-100 backdrop-blur-2xl p-8 rounded-2xl shadow-lg border border-gray-100"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, ease: "easeOut" }}

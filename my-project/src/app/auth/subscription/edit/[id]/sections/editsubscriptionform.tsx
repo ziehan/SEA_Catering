@@ -92,10 +92,10 @@ export const EditSubscriptionForm: React.FC<EditFormProps> = ({
   };
 
   return (
-    <section className="min-h-screen bg-gray-50 py-20 px-4">
+    <section className="min-h-screen bg-gray-100 py-20 px-4 mt-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold font-serif text-gray-800">
+          <h1 className="text-4xl md:text-5xl font-bold font-serif title-page">
             Edit Your Schedule
           </h1>
           <p className="mt-2 text-lg text-gray-600">

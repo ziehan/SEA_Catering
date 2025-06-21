@@ -38,7 +38,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
+    <section className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4">
       <motion.div
         className="max-w-md w-full"
         initial={{ opacity: 0, y: 20 }}

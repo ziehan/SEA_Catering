@@ -1,13 +1,5 @@
 import { StaticImageData } from "next/image";
-import {
-  ChefHat,
-  Leaf,
-  Pizza,
-  Sandwich,
-  Salad,
-  Fish,
-  Users,
-} from "lucide-react";
+import { ChefHat, Leaf, Pizza, Sandwich, Salad, Fish } from "lucide-react";
 
 import saladImage from "@/assets/image/salad.jpg";
 import saladPangsitImage from "@/assets/image/saladpangsit.jpg";
@@ -122,6 +114,7 @@ export const MENU_DATA: MenuItemType[] = Array.from({ length: 30 }, (_, i) => {
     Pizza,
   ];
   const currentPlanType = PLAN_TYPES[i % 3];
+
   return {
     id: i + 1,
     title: titles[i] || `Menu Item ${i + 1}`,

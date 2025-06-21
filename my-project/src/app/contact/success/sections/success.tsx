@@ -41,7 +41,7 @@ export const Success = () => {
   }
 
   return (
-    <section className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <section className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <motion.div
         className="bg-white p-8 sm:p-12 rounded-2xl shadow-xl border border-gray-100 text-center max-w-lg w-full"
         variants={containerVariants}

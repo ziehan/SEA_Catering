@@ -32,7 +32,7 @@ export default function RootLayout({
         className={twMerge(
           inter.variable,
           calistoga.variable,
-          "bg-white text-black antialiased font-sans"
+          "bg-gray-100 text-black antialiased font-sans"
         )}
       >
         <AuthProvider>

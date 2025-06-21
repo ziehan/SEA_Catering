@@ -102,7 +102,7 @@ export const Testimoni = () => {
     return <div className="py-20 text-center text-red-500">{error}</div>;
 
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-20 md:py-28 bg-gray-100">
       <div className="container px-4 mx-auto">
         <div className="mb-12 text-center md:mb-16">
           <motion.h2

@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  phoneNumber: {
+    type: String,
+    default: "",
+  },
 });
 
 UserSchema.pre("save", async function (next) {

@@ -34,6 +34,7 @@ export async function DELETE(request: Request, { params }: Params) {
       { status: 200 }
     );
   } catch (error) {
+    console.error("API DELETE Error:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
@@ -41,21 +42,15 @@ export async function DELETE(request: Request, { params }: Params) {
 export async function PATCH(request: Request, { params }: Params) {
   const session = await getServerSession(authOptions);
   const { id } = params;
-  const { status } = await request.json();
 
   if (!session || !session.user?.email) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  if (!["active", "paused"].includes(status)) {
-    return NextResponse.json(
-      { message: "Invalid status update" },
-      { status: 400 }
-    );
-  }
-
   try {
+    const body = await request.json();
     await dbConnect();
+
     const subscription = await Subscription.findById(id);
 
     if (!subscription || subscription.userEmail !== session.user.email) {
@@ -65,9 +60,32 @@ export async function PATCH(request: Request, { params }: Params) {
       );
     }
 
+    const updateData: { status?: string; schedule?: any } = {};
+
+    if (body.status) {
+      if (!["active", "paused"].includes(body.status)) {
+        return NextResponse.json(
+          { message: "Invalid status update" },
+          { status: 400 }
+        );
+      }
+      updateData.status = body.status;
+    }
+
+    if (body.schedule) {
+      updateData.schedule = body.schedule;
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json(
+        { message: "No valid fields to update." },
+        { status: 400 }
+      );
+    }
+
     const updatedSubscription = await Subscription.findByIdAndUpdate(
       id,
-      { status: status },
+      updateData,
       { new: true }
     );
 
@@ -75,7 +93,11 @@ export async function PATCH(request: Request, { params }: Params) {
       { success: true, data: updatedSubscription },
       { status: 200 }
     );
-  } catch (error) {
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+  } catch (error: any) {
+    console.error("API PATCH Error:", error);
+    return NextResponse.json(
+      { message: "Server error", error: error.message },
+      { status: 500 }
+    );
   }
 }
