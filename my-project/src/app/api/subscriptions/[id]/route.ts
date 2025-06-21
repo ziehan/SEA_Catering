@@ -4,12 +4,6 @@ import dbConnect from "@/lib/mongodb";
 import Subscription from "@/models/Subscription";
 import { NextResponse } from "next/server";
 
-type Context = {
-  params: {
-    id: string;
-  };
-};
-
 type MealSelection = {
   mealType: string;
   mealId: number;
@@ -18,10 +12,12 @@ type MealSelection = {
 };
 type DailySchedule = { date: string; meals: MealSelection[] };
 
-// @ts-expect-error: Next.js 15 App Router route handler type issue
-export async function DELETE(request: Request, context: Context) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   const session = await getServerSession(authOptions);
-  const { id } = context.params;
+  const { id } = params;
 
   if (!session || !session.user?.email) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -61,10 +57,12 @@ export async function DELETE(request: Request, context: Context) {
   }
 }
 
-// @ts-expect-error: Next.js 15 App Router route handler type issue
-export async function PATCH(request: Request, context: Context) {
+export async function PATCH(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   const session = await getServerSession(authOptions);
-  const { id } = context.params;
+  const { id } = params;
 
   if (!session || !session.user?.email) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });

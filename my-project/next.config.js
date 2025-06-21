@@ -1,6 +1,6 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
 
-const config: NextConfig = {
+const nextConfig = {
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
@@ -22,4 +22,4 @@ const config: NextConfig = {
   },
 };
 
-export default config;
+module.exports = nextConfig;
