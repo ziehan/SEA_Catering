@@ -44,7 +44,8 @@ async function getUserData(email: string) {
     today.setHours(0, 0, 0, 0);
 
     let needsDbUpdate = false;
-    const updatedSchedule = subscription.schedule.map((day) => {
+
+    const updatedSchedule = subscription.schedule.map((day: IDailySchedule) => {
       if (new Date(day.date) < today && day.status === "active") {
         needsDbUpdate = true;
         return { ...day, status: "completed" as const };
