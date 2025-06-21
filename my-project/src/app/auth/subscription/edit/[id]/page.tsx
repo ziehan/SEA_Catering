@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
-import Subscription from "@/models/Subscription";
+import Subscription, { ISubscription } from "@/models/Subscription";
 import { MENU_DATA } from "@/lib/menu-data";
 
 import { Header } from "@/app/sections/header";
@@ -19,7 +19,9 @@ async function getDataForEdit(subscriptionId: string, userEmail: string) {
   try {
     await dbConnect();
 
-    const subscription = await Subscription.findById(subscriptionId).lean();
+    const subscription = (await Subscription.findById(
+      subscriptionId
+    ).lean()) as ISubscription | null;
 
     if (!subscription || subscription.userEmail !== userEmail) {
       return { subscription: null, allMeals: [] };
@@ -28,6 +30,7 @@ async function getDataForEdit(subscriptionId: string, userEmail: string) {
     const allMeals = MENU_DATA.map((meal) => ({
       id: meal.id,
       title: meal.title,
+      description: meal.description,
       planType: meal.planType,
     }));
 
