@@ -18,6 +18,7 @@ type MealSelection = {
 };
 type DailySchedule = { date: string; meals: MealSelection[] };
 
+// @ts-ignore
 export async function DELETE(request: Request, context: Context) {
   const session = await getServerSession(authOptions);
   const { id } = context.params;
@@ -60,6 +61,7 @@ export async function DELETE(request: Request, context: Context) {
   }
 }
 
+// @ts-ignore
 export async function PATCH(request: Request, context: Context) {
   const session = await getServerSession(authOptions);
   const { id } = context.params;
