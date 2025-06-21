@@ -4,6 +4,12 @@ import dbConnect from "@/lib/mongodb";
 import Subscription from "@/models/Subscription";
 import { NextResponse } from "next/server";
 
+type Context = {
+  params: {
+    id: string;
+  };
+};
+
 type MealSelection = {
   mealType: string;
   mealId: number;
@@ -12,12 +18,9 @@ type MealSelection = {
 };
 type DailySchedule = { date: string; meals: MealSelection[] };
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: Request, context: Context) {
   const session = await getServerSession(authOptions);
-  const { id } = params;
+  const { id } = context.params;
 
   if (!session || !session.user?.email) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -57,12 +60,9 @@ export async function DELETE(
   }
 }
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(request: Request, context: Context) {
   const session = await getServerSession(authOptions);
-  const { id } = params;
+  const { id } = context.params;
 
   if (!session || !session.user?.email) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
