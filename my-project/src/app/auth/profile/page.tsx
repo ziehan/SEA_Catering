@@ -3,84 +3,81 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import Subscription from "@/models/Subscription";
+import { MENU_DATA } from "@/lib/menu-data";
 
 import { Header } from "@/app/sections/header";
 import { Footer } from "@/app/sections/footer";
-import { ProfileClient } from "@/app/sections/profile";
-
-interface IMeal {
-  mealType: string;
-  mealId: number;
-  mealTitle: string;
-  mealDescription: string;
-  status?: "completed" | string;
-}
-
-interface IDailySchedule {
-  date: string;
-  meals: IMeal[];
-  status: "active" | "completed" | "paused" | "cancelled";
-}
+import { EditSubscriptionForm } from "@/app/sections/editsubscriptionform";
 
 interface ISubscription {
   _id: string;
   userEmail: string;
-  status: "active" | "paused" | "cancelled";
-  schedule: IDailySchedule[];
+  planName: string;
+  schedule: any;
 }
 
-async function getUserData(email: string) {
-  await dbConnect();
-
-  const subscription = await Subscription.findOne<ISubscription>({
-    userEmail: email,
-    status: { $in: ["active", "paused"] },
-  })
-    .sort({ subscriptionDate: -1 })
-    .lean();
-
-  if (subscription) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    let needsDbUpdate = false;
-
-    const updatedSchedule = subscription.schedule.map((day: IDailySchedule) => {
-      if (new Date(day.date) < today && day.status === "active") {
-        needsDbUpdate = true;
-        return { ...day, status: "completed" as const };
-      }
-      return day;
-    });
-
-    if (needsDbUpdate) {
-      await Subscription.findByIdAndUpdate(subscription._id, {
-        schedule: updatedSchedule,
-      });
-      subscription.schedule = updatedSchedule;
-    }
-  }
-
-  return {
-    subscription: subscription
-      ? JSON.parse(JSON.stringify(subscription))
-      : null,
+interface EditPageProps {
+  params: {
+    id: string;
   };
 }
 
-export default async function ProfilePage() {
+async function getDataForEdit(subscriptionId: string, userEmail: string) {
+  try {
+    await dbConnect();
+
+    const subscription =
+      await Subscription.findById<ISubscription>(subscriptionId).lean();
+
+    if (!subscription || subscription.userEmail !== userEmail) {
+      return { subscription: null, allMeals: [] };
+    }
+
+    const allMeals = MENU_DATA.map((meal) => ({
+      id: meal.id,
+      title: meal.title,
+      description: meal.description,
+      planType: meal.planType,
+    }));
+
+    return {
+      subscription: JSON.parse(JSON.stringify(subscription)),
+      allMeals: allMeals,
+    };
+  } catch (error) {
+    console.error("Failed to fetch data for edit page:", error);
+    return { subscription: null, allMeals: [] };
+  }
+}
+
+export default async function EditSubscriptionPage({ params }: EditPageProps) {
   const session = await getServerSession(authOptions);
+  const { id } = params;
 
   if (!session || !session.user?.email) {
     redirect("/auth/login");
   }
 
-  const { subscription } = await getUserData(session.user.email);
+  const { subscription, allMeals } = await getDataForEdit(
+    id,
+    session.user.email
+  );
+
+  if (!subscription) {
+    redirect("/auth/profile");
+  }
+
+  const relevantMeals = allMeals.filter(
+    (meal) => meal.planType === subscription.planName
+  );
 
   return (
     <main>
       <Header />
-      <ProfileClient session={session} subscription={subscription} />
+      <EditSubscriptionForm
+        initialSubscription={subscription}
+        availableMeals={relevantMeals}
+      />
       <Footer />
     </main>
   );
