@@ -3,6 +3,7 @@ import { Inter, Calistoga } from "next/font/google";
 import "./globals.css";
 import { twMerge } from "tailwind-merge";
 import { AuthProvider } from "@/components/AuthProvider";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -34,7 +35,10 @@ export default function RootLayout({
           "bg-white text-black antialiased font-sans"
         )}
       >
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <Toaster position="top-center" reverseOrder={false} />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

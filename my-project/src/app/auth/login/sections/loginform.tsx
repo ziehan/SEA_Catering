@@ -19,7 +19,7 @@ export const LoginForm = () => {
     setIsLoading(true);
     try {
       const result = await signIn("credentials", {
-        redirect: false, // Handle redirect manual
+        redirect: false,
         email: formData.email,
         password: formData.password,
       });
@@ -27,16 +27,15 @@ export const LoginForm = () => {
       if (result?.error) {
         setError("Invalid email or password. Please try again.");
       } else {
-        // Redirect ke halaman menu setelah berhasil
         router.push("/menu");
-        router.refresh(); // Refresh halaman untuk update header
+        router.refresh();
       }
     } catch (err) {
       setError("An unexpected error occurred.");
     } finally {
       setIsLoading(false);
     }
-  }; // <-- Pastikan kurung kurawal dan titik koma ini ada
+  };
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">

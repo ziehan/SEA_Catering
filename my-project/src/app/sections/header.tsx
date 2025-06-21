@@ -14,7 +14,7 @@ import {
   UserCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useOnClickOutside } from "@/hooks/useOnClickOutside"; // Impor custom hook
+import { useOnClickOutside } from "@/hooks/useOnClickOutside";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,7 +23,7 @@ export const Header = () => {
   const { data: session, status } = useSession();
 
   const profileRef = useRef<HTMLDivElement>(null);
-  useOnClickOutside(profileRef, () => setIsProfileOpen(false)); // Gunakan hook untuk menutup dropdown
+  useOnClickOutside(profileRef, () => setIsProfileOpen(false));
 
   const navLinks = [
     { href: "/", label: "Home" },

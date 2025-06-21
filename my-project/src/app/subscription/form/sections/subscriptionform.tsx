@@ -3,7 +3,7 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { Loader, AlertCircle, Check } from "lucide-react";
+import { Loader2, AlertCircle, Check } from "lucide-react";
 
 type Plan = { name: string; price: number };
 type FormStatus = "idle" | "submitting" | "success" | "error";
@@ -15,13 +15,13 @@ const planOptions: Plan[] = [
 ];
 const mealTypeOptions = ["Breakfast", "Lunch", "Dinner"];
 const deliveryDayOptions = [
+  "Sunday",
   "Monday",
   "Tuesday",
   "Wednesday",
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday",
 ];
 
 export const SubscriptionForm = () => {
@@ -44,9 +44,7 @@ export const SubscriptionForm = () => {
     const planNameFromUrl = searchParams.get("plan");
     if (planNameFromUrl) {
       const planToSelect = planOptions.find((p) => p.name === planNameFromUrl);
-      if (planToSelect) {
-        setSelectedPlan(planToSelect);
-      }
+      if (planToSelect) setSelectedPlan(planToSelect);
     }
   }, [searchParams]);
 
@@ -84,15 +82,52 @@ export const SubscriptionForm = () => {
     e.preventDefault();
     setFormStatus("submitting");
     setErrorMessage("");
+
+    const schedule = [];
+    const today = new Date();
+
+    for (let i = 0; i < 30; i++) {
+      const futureDate = new Date(today);
+      futureDate.setDate(today.getDate() + i);
+      const dayName = deliveryDayOptions[futureDate.getDay()];
+
+      if (selectedDeliveryDays.includes(dayName)) {
+        const mealsForDay = [];
+        for (const mealType of selectedMealTypes) {
+          const defaultMeal = MENU_DATA.find(
+            (menu) => menu.planType === selectedPlan?.name
+          );
+
+          if (defaultMeal) {
+            mealsForDay.push({
+              mealType: mealType,
+              mealId: defaultMeal.id,
+              mealTitle: defaultMeal.title,
+              mealDescription: defaultMeal.description,
+            });
+          }
+        }
+
+        if (mealsForDay.length > 0) {
+          schedule.push({
+            date: futureDate,
+            meals: mealsForDay,
+            status: "active",
+          });
+        }
+      }
+    }
+
     const submissionData = {
       fullName: formData.fullName,
       phoneNumber: formData.phoneNumber,
       planName: selectedPlan?.name,
-      mealTypes: selectedMealTypes,
-      deliveryDays: selectedDeliveryDays,
       allergies: formData.allergies,
       totalPrice: totalPrice,
+      schedule: schedule,
+      status: "active",
     };
+
     try {
       const response = await fetch("/api/subscribe", {
         method: "POST",
@@ -133,10 +168,10 @@ export const SubscriptionForm = () => {
   }
 
   return (
-    <section className="py-20 px-4 mt-4">
+    <section className="py-20 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold font-serif title-page pb-1">
+          <h1 className="text-4xl md:text-5xl font-bold font-serif pb-1">
             Create Your Subscription
           </h1>
           <p className="mt-4 text-lg text-gray-600">
@@ -265,7 +300,7 @@ export const SubscriptionForm = () => {
             whileTap={{ scale: 0.98 }}
           >
             {formStatus === "submitting" ? (
-              <Loader className="animate-spin" />
+              <Loader2 className="animate-spin" />
             ) : (
               "Subscribe Now"
             )}
