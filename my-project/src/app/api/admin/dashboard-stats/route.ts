@@ -4,6 +4,7 @@ import dbConnect from "@/lib/mongodb";
 import Subscription from "@/models/Subscription";
 import { NextResponse } from "next/server";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(_request: Request) {
   const session = await getServerSession(authOptions);
 

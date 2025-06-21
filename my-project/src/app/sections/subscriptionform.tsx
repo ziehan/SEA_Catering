@@ -305,7 +305,7 @@ export const SubscriptionForm = () => {
           </div>
           <motion.button
             type="submit"
-            disabled={formStatus === "submitting"}
+            disabled={formStatus === "submitting" || isLoading}
             className="w-full flex items-center justify-center py-4 px-6 rounded-xl font-bold text-lg text-white bg-green-500 hover:bg-green-600 disabled:opacity-50"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}

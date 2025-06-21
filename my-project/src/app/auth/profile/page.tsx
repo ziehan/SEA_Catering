@@ -11,7 +11,7 @@ import { ProfileClient } from "@/app/sections/profile";
 async function getUserData(email: string) {
   await dbConnect();
 
-  let subscription = await Subscription.findOne({
+  const subscription = await Subscription.findOne({
     userEmail: email,
     status: { $in: ["active", "paused"] },
   })

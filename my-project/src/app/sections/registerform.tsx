@@ -34,6 +34,7 @@ export const RegisterForm = () => {
         setError(data.message || "Registration failed.");
       }
     } catch (_err) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       setError("An unexpected error occurred.");
     } finally {
       setIsLoading(false);

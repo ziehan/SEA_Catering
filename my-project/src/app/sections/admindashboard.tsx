@@ -165,6 +165,7 @@ export const AdminDashboardClient = () => {
       setStats(statsData);
       setSubscriptions(subsData);
     } catch (error: unknown) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const errorMessage =
         error instanceof Error ? error.message : "An unknown error occurred";
       console.error("Failed to fetch dashboard data", error);
