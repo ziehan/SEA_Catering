@@ -4,10 +4,6 @@ import dbConnect from "@/lib/mongodb";
 import Subscription from "@/models/Subscription";
 import { NextResponse } from "next/server";
 
-interface Params {
-  params: { id: string };
-}
-
 type MealSelection = {
   mealType: string;
   mealId: number;
@@ -16,7 +12,10 @@ type MealSelection = {
 };
 type DailySchedule = { date: string; meals: MealSelection[] };
 
-export async function DELETE(request: Request, { params }: Params) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   const session = await getServerSession(authOptions);
   const { id } = params;
 
@@ -58,7 +57,10 @@ export async function DELETE(request: Request, { params }: Params) {
   }
 }
 
-export async function PATCH(request: Request, { params }: Params) {
+export async function PATCH(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   const session = await getServerSession(authOptions);
   const { id } = params;
 
