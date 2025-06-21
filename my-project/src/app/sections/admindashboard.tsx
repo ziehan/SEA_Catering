@@ -193,8 +193,13 @@ export const AdminDashboardClient = () => {
       });
       toast.success("Subscription cancelled.");
       fetchData();
-    } catch (error) {
-      toast.error("Failed to cancel subscription.");
+    } catch (error: unknown) {
+      console.error("Failed to fetch dashboard data", error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to load dashboard data.";
+      toast.error(errorMessage);
     } finally {
       setIsProcessing(false);
       setIsModalOpen(false);

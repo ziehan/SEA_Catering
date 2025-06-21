@@ -30,8 +30,7 @@ export const LoginForm = () => {
         router.push("/menu");
         router.refresh();
       }
-    } catch (_err) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch {
       setError("An unexpected error occurred.");
     } finally {
       setIsLoading(false);
