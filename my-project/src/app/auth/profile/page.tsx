@@ -8,10 +8,31 @@ import { Header } from "@/app/sections/header";
 import { Footer } from "@/app/sections/footer";
 import { ProfileClient } from "@/app/sections/profile";
 
+interface IMeal {
+  mealType: string;
+  mealId: number;
+  mealTitle: string;
+  mealDescription: string;
+  status?: "completed" | string;
+}
+
+interface IDailySchedule {
+  date: string;
+  meals: IMeal[];
+  status: "active" | "completed" | "paused" | "cancelled";
+}
+
+interface ISubscription {
+  _id: string;
+  userEmail: string;
+  status: "active" | "paused" | "cancelled";
+  schedule: IDailySchedule[];
+}
+
 async function getUserData(email: string) {
   await dbConnect();
 
-  const subscription = await Subscription.findOne({
+  const subscription = await Subscription.findOne<ISubscription>({
     userEmail: email,
     status: { $in: ["active", "paused"] },
   })
@@ -26,11 +47,7 @@ async function getUserData(email: string) {
     const updatedSchedule = subscription.schedule.map((day) => {
       if (new Date(day.date) < today && day.status === "active") {
         needsDbUpdate = true;
-        const completedMeals = day.meals.map((meal) => ({
-          ...meal,
-          status: "completed",
-        }));
-        return { ...day, meals: completedMeals, status: "completed" };
+        return { ...day, status: "completed" as const };
       }
       return day;
     });
