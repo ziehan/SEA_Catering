@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Session } from "next-auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
 import toast from "react-hot-toast";
 import {
   CheckCircle,
@@ -131,7 +131,7 @@ const LoadingButton = ({
   isLoading: boolean;
   children: React.ReactNode;
   className?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>) => (
+} & HTMLMotionProps<"button">) => (
   <motion.button
     className={`relative overflow-hidden ${className}`}
     whileHover={{ scale: isLoading ? 1 : 1.02 }}
@@ -225,6 +225,7 @@ interface ProfileClientProps {
       name?: string | null;
       email?: string | null;
       phoneNumber?: string | null;
+      role?: string;
     };
   };
   subscription: SubscriptionData;
