@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import Image from "next/image";
-import { ChefHat, Truck, BarChart3, Leaf } from "lucide-react";
+import Image, { StaticImageData } from "next/image";
+import { ChefHat, Truck, BarChart3, Leaf, LucideIcon } from "lucide-react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 import cateringImage from "@/assets/image/catering.jpg";
@@ -10,7 +10,19 @@ import deliveryImage from "@/assets/image/delivery.jpg";
 import nutritionImage from "@/assets/image/nutrition.jpg";
 import ingredientsImage from "@/assets/image/ingredients.jpg";
 
-const features = [
+type ColorKeys = keyof typeof colorClasses;
+
+interface Feature {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  color: ColorKeys;
+  bgImage: StaticImageData;
+  alt: string;
+}
+
+const features: Feature[] = [
+  // ================================================================
   {
     title: "Customizable Catering",
     description:
@@ -129,7 +141,7 @@ const ParallaxCard = ({
   feature,
   index,
 }: {
-  feature: (typeof features)[0];
+  feature: Feature;
   index: number;
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
