@@ -58,10 +58,12 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
 };
+
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
   visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } },
-};
+} as const;
+
 const colorStyles = {
   emerald: {
     text: "text-emerald-500",
@@ -143,7 +145,9 @@ export const SubscriptionPlans = () => {
                   </ul>
                   {session?.user?.role !== "admin" && (
                     <Link
-                      href={`/subscription/form?plan=${encodeURIComponent(plan.name)}`}
+                      href={`/subscription/form?plan=${encodeURIComponent(
+                        plan.name
+                      )}`}
                       className={`block text-center w-full py-3 px-6 rounded-lg font-bold text-lg transition-all duration-300 shadow-md ${styles.bg} ${styles.hoverBg} text-${plan.colors.buttonText} focus:outline-none focus:ring-4 ${styles.ring}`}
                     >
                       Choose Plan
