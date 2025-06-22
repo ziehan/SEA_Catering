@@ -74,7 +74,7 @@ export const Header = () => {
                   className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 hover:bg-gray-200 transition-colors"
                 >
                   Hi, {session.user?.name?.split(" ")[0]}
-                  {session.user.role === "admin" && (
+                  {session.user?.role === "admin" && (
                     <span className="bg-rose-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                       ADMIN
                     </span>
@@ -89,7 +89,7 @@ export const Header = () => {
                       className="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100"
                     >
                       <div className="py-1">
-                        {session.user.role === "admin" ? (
+                        {session.user?.role === "admin" ? (
                           <Link
                             href="/admin/dashboard"
                             onClick={() => setIsProfileOpen(false)}
@@ -193,7 +193,7 @@ export const Header = () => {
               >
                 {status === "authenticated" ? (
                   <>
-                    {session.user.role === "admin" ? (
+                    {session.user?.role === "admin" ? (
                       <Link
                         href="/admin/dashboard"
                         onClick={() => setIsMenuOpen(false)}
