@@ -110,7 +110,7 @@ export const Header = () => {
                         )}
                         <button
                           onClick={() => {
-                            signOut();
+                            signOut({ callbackUrl: "/" });
                             setIsProfileOpen(false);
                           }}
                           className="w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-rose-500 hover:bg-rose-50"
@@ -214,7 +214,7 @@ export const Header = () => {
                     )}
                     <button
                       onClick={() => {
-                        signOut();
+                        signOut({ callbackUrl: "/" });
                         setIsMenuOpen(false);
                       }}
                       className="flex items-center gap-2 mt-4 px-6 py-3 rounded-full bg-rose-500 text-white font-bold text-lg"

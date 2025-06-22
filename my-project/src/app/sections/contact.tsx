@@ -62,6 +62,8 @@ export const Contact = () => {
       toast.error("You must log in to send a message.");
       router.push("/auth/login");
     } else {
+      sessionStorage.setItem("contactFormSubmitted", "true");
+
       formRef.current?.submit();
       toast.success("Your message is being sent!");
     }
