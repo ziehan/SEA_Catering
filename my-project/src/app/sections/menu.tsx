@@ -33,7 +33,8 @@ interface PopupProps {
 const HOVER_ANIMATION = {
   scale: 1.02,
   transition: { type: "spring", stiffness: 400, damping: 20 },
-};
+} as const;
+
 const PLAN_STYLES: Record<PlanType, string> = {
   "Diet Plan": "bg-emerald-500 text-white",
   "Protein Plan": "bg-rose-500 text-white",
