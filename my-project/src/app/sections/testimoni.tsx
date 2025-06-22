@@ -173,6 +173,7 @@ export const Testimoni = () => {
                     width={80}
                     height={80}
                     className="mb-4 border-2 rounded-full border-green-200"
+                    unoptimized={true}
                   />
                   <h3 className="text-2xl font-serif mb-1">{review.name}</h3>
                   <p className="mb-4 text-sm text-gray-500">

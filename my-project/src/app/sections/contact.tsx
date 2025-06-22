@@ -51,7 +51,7 @@ export const Contact = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setRedirectUrl(`${window.location.origin}/success`);
+      setRedirectUrl(`${window.location.origin}/contact/success`);
     }
   }, []);
 
