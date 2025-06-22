@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// import { motion, AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { CheckCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -20,7 +19,7 @@ const containerVariants = {
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
   visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } },
-};
+} as const;
 
 export const Success = () => {
   const router = useRouter();
