@@ -27,7 +27,7 @@ export const LoginForm = () => {
       if (result?.error) {
         setError("Invalid email or password. Please try again.");
       } else {
-        router.push("/menu");
+        router.push("/auth/profile");
         router.refresh();
       }
     } catch {
