@@ -104,6 +104,15 @@ export const LoginForm = () => {
               </div>
             </div>
 
+            <div className="text-right text-sm">
+              <Link
+                href="/auth/forgot-password"
+                className="font-medium text-emerald-600 hover:text-emerald-500"
+              >
+                Forgot your password?
+              </Link>
+            </div>
+
             {error && (
               <p className="text-red-600 text-sm text-center">{error}</p>
             )}

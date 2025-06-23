@@ -18,7 +18,6 @@ const mealTypeOptions = ["Breakfast", "Lunch", "Dinner"];
 const deliveryDayOptions = [
   "Sunday",
   "Monday",
-
   "Tuesday",
   "Wednesday",
   "Thursday",
@@ -41,7 +40,7 @@ export const SubscriptionForm = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [formStatus, setFormStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Ditambahkan
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const planNameFromUrl = searchParams.get("plan");
@@ -71,6 +70,7 @@ export const SubscriptionForm = () => {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
   const handleCheckboxChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     setter: React.Dispatch<React.SetStateAction<string[]>>
@@ -84,7 +84,7 @@ export const SubscriptionForm = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setFormStatus("submitting");
-    setIsLoading(true); // Ditambahkan
+    setIsLoading(true);
     setErrorMessage("");
 
     const schedule = [];
@@ -189,6 +189,7 @@ export const SubscriptionForm = () => {
           onSubmit={handleSubmit}
           className="bg-white p-8 rounded-2xl shadow-xl space-y-8"
         >
+          {/* ... sisa form tidak berubah ... */}
           <div>
             <h3 className="text-xl font-bold mb-4">1. Your Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -296,7 +297,7 @@ export const SubscriptionForm = () => {
           </div>
           <div className="bg-emerald-50 p-6 rounded-lg text-center">
             <p className="text-lg text-emerald-800">Estimated Monthly Price</p>
-            <p className="text-4xl font-bold text-emerald-600 font-serif mt-2">
+            <p className="text-3xl sm:text-4xl font-bold text-emerald-600 font-serif mt-2 break-words">
               {new Intl.NumberFormat("id-ID", {
                 style: "currency",
                 currency: "IDR",
