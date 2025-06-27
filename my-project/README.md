@@ -118,3 +118,11 @@ RESEND_API_KEY="re_xxxxxxxxxxxxxxxxxxxx"
 ### Deployment
 
 [Link Website SEA Catering](sea-catering-indonesia.vercel.app)
+
+Untuk login sebagai admin dapat menggunakan email berikut:
+
+```bash
+email: nabeehannn@gmail.com
+password: admin123
+
+```

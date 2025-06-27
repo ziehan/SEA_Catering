@@ -26,10 +26,18 @@ export const LoginForm = () => {
 
       if (result?.error) {
         setError("Invalid email or password. Please try again.");
+        setIsLoading(false);
+        return;
+      }
+      const sessionRes = await fetch("/api/auth/session");
+      const session = await sessionRes.json();
+
+      if (session?.user?.role === "admin") {
+        router.push("/admin/dashboard");
       } else {
         router.push("/auth/profile");
-        router.refresh();
       }
+      router.refresh();
     } catch {
       setError("An unexpected error occurred.");
     } finally {
