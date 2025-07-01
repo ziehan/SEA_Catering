@@ -2,34 +2,32 @@
 
 ## `“Healthy Meals, Anytime, Anywhere”`
 
-Selamat datang di repositori utama untuk proyek SEA Catering. Repositori ini berisi kode sumber lengkap untuk aplikasi web layanan katering sehat, mulai dari halaman landing, sistem autentikasi, hingga dashboard admin.
+Welcome to the main repository for the SEA Catering project. This repository contains the complete source code for a healthy catering service web application, from the landing page and authentication system to the admin dashboard.
 
-### 🚀 Proyek Utama
+### 🚀 Main Project
 
-Aplikasi utama (dibangun dengan Next.js) terletak di dalam folder /my-project. Semua dokumentasi teknis, panduan instalasi, dan detail mengenai fitur aplikasi terdapat di dalam README folder tersebut.
+The main application (built with Next.js) is located inside the /my-project folder. All technical documentation, installation guides, and details regarding the application's features are located in the README file within that folder.
 
-### ➡️ Lihat Dokumentasi Teknis & Panduan Instalasi di folder my-project
+### ➡️ View Technical Documentation & Installation Guide in the my-project folder
 
-### 📂 Struktur Repositori
+### 📂 Repository Structure
 
-Struktur repositori ini dirancang agar sederhana dan terorganisir:
+This repository's structure is designed to be simple and organized:
 
-```
 SEA_Catering/
 └── my-project/
 └── README.md
-```
 
-### ✨ Teknologi Utama
+### ✨ Core Technologies
 
-Proyek ini dibangun menggunakan tumpukan teknologi modern untuk memastikan performa, keamanan, dan skalabilitas.
+This project is built using a modern tech stack to ensure performance, security, and scalability.
 
-- Framework: Next.js
-- Bahasa: TypeScript
-- Database: MongoDB (dengan Mongoose)
-- Styling: Tailwind CSS
-- Animasi: Framer Motion
-- Autentikasi: NextAuth.js
-- Deployment: Vercel
+- **Framework**: Next.js
+- **Language**: TypeScript
+- **Database**: MongoDB (with Mongoose)
+- **Styling**: Tailwind CSS
+- **Animation**: Framer Motion
+- **Authentication**: NextAuth.js
+- **Deployment**: Vercel
 
-## Dibuat oleh Naziehan Labieb
+#### Created by Naziehan Labieb
