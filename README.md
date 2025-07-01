@@ -14,9 +14,11 @@ The main application (built with Next.js) is located inside the /my-project fold
 
 This repository's structure is designed to be simple and organized:
 
+```
 SEA_Catering/
 └── my-project/
 └── README.md
+```
 
 ### ✨ Core Technologies
 
